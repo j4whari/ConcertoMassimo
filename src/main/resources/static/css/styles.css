@@ -1,0 +1,16 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.transparent-navbar {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.carousel-inner img {
+    width: 100%;
+    height: auto;
+}
+
+.card {
+    margin: 15px 0;
+}

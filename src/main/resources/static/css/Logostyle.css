@@ -1,0 +1,104 @@
+/* Import Google font - Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column; /* Disporre i contenuti in verticale */
+    align-items: center;
+    justify-content: center;
+    background-color: #060b23;
+}
+
+/* Stile per la barra di navigazione */
+nav {
+    width: 100%;
+    background-color: #333;
+    padding: 10px 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 50px;
+    filter: saturate(100%);
+    -webkit-filter: saturate(100%);
+
+}
+
+nav .logo {
+    width: 120px; /* Dimensioni del logo */
+    height: auto;
+}
+
+nav ul {
+    list-style-type: none;
+    display: flex;
+}
+
+nav ul li {
+    display: inline-block;
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    text-transform: uppercase;
+}
+
+nav ul li a:hover {
+    color: #18ffff;
+}
+
+/* Stile per i campi di input */
+.input-field {
+    position: relative;
+    margin-bottom: 20px; /* Aggiungi spazio tra i campi */
+}
+
+.input-field input {
+    width: 350px;
+    height: 60px;
+    border-radius: 6px;
+    font-size: 18px;
+    padding: 0 15px;
+    border: 2px solid #fff;
+    background: transparent;
+    color: #fff;
+    outline: none;
+}
+
+.input-field label {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translateY(-50%);
+    color: #fff;
+    font-size: 19px;
+    pointer-events: none;
+    transition: 0.3s;
+}
+
+input:focus {
+    border: 2px solid #18ffff;
+}
+
+input:focus ~ label,
+input:valid ~ label {
+    top: 0;
+    left: 15px;
+    font-size: 16px;
+    padding: 0 2px;
+    background: #060b23;
+}
