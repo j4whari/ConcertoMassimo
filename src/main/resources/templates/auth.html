@@ -1,0 +1,105 @@
+
+<!-- LOGIN E REGISTRAZIONE -->
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login e Registrazione</title>
+  <link rel="stylesheet" href="/css/Logostyle.css">
+</head>
+<body>
+
+<!-- Menu -->
+<nav>
+  <img src="logo.png" alt="Logo" class="logo">
+  <ul>
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- Login Container -->
+<div class="login-container">
+
+  <!-- Modulo di Login -->
+  <div id="login-form" class="tab">
+    <h2>Accedi</h2>
+    <p>Inserisci le tue credenziali per accedere</p>
+
+    <!-- Form di Login -->
+    <form th:action="@{/controller/login}" method="post">
+      <div class="input-field">
+        <input type="email" id="login-email" name="email" required>
+        <label for="login-email">E-mail</label>
+      </div>
+
+      <div class="input-field">
+        <input type="password" id="login-password" name="password" required>
+        <label for="login-password">Password</label>
+      </div>
+
+      <button type="submit" class="login-btn">Accedi</button>
+    </form>
+
+    <p class="switch-form">Non hai un account? <a href="#" id="show-register">Registrati</a></p>
+  </div>
+
+  <!-- Modulo di Registrazione -->
+  <div id="register-form" class="tab hidden">
+    <h2>Registrati</h2>
+    <p>Crea un nuovo account</p>
+
+    <!-- Form di Registrazione -->
+    <form th:action="@{/controller/register}" method="post">
+      <div class="input-field">
+        <input type="text" id="register-email" name="email" required>
+        <label for="register-email">E-mail</label>
+      </div>
+
+      <div class="input-field">
+        <input type="password" id="register-password" name="password" required>
+        <label for="register-password">Password</label>
+      </div>
+
+      <button type="submit" class="register-btn">Registrati</button>
+    </form>
+
+    <p class="switch-form">Hai già un account? <a href="#" id="show-login">Accedi</a></p>
+  </div>
+
+</div>
+
+<!-- Messaggi di errore/successo -->
+<div th:if="${param.error != null}" style="color: red; text-align: center; margin-top: 20px;">
+  <p th:text="${param.error}"></p>
+</div>
+<div th:if="${param.success != null}" style="color: green; text-align: center; margin-top: 20px;">
+  <p th:text="${param.success}"></p>
+</div>
+
+<!-- Script per lo switch tra login e registrazione -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const loginForm = document.getElementById("login-form");
+    const registerForm = document.getElementById("register-form");
+    const showRegister = document.getElementById("show-register");
+    const showLogin = document.getElementById("show-login");
+
+    showRegister.addEventListener("click", function (event) {
+      event.preventDefault();
+      loginForm.classList.add("hidden");
+      registerForm.classList.remove("hidden");
+    });
+
+    showLogin.addEventListener("click", function (event) {
+      event.preventDefault();
+      registerForm.classList.add("hidden");
+      loginForm.classList.remove("hidden");
+    });
+  });
+</script>
+</body>
+</html>

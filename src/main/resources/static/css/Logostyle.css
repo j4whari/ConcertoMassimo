@@ -1,104 +1,183 @@
-/* Import Google font - Poppins */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
 }
 
 body {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column; /* Disporre i contenuti in verticale */
-    align-items: center;
-    justify-content: center;
-    background-color: #060b23;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #060b23;
+  color: white;
 }
 
-/* Stile per la barra di navigazione */
+/* Navbar */
 nav {
-    width: 100%;
-    background-color: #333;
-    padding: 10px 0;
-    position: absolute;
-    top: 0;
-    left: 0;
-    text-align: center;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 50px;
-    filter: saturate(100%);
-    -webkit-filter: saturate(100%);
-
+  width: 100%;
+  background-color: #333;
+  padding: 10px 30px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 nav .logo {
-    width: 120px; /* Dimensioni del logo */
-    height: auto;
+  width: 1px;
+
 }
 
 nav ul {
-    list-style-type: none;
-    display: flex;
+  list-style-type: none;
+  display: flex;
 }
 
 nav ul li {
-    display: inline-block;
-    margin: 0 15px;
+  margin: 0 15px;
 }
 
 nav ul li a {
-    color: white;
-    text-decoration: none;
-    font-size: 18px;
-    text-transform: uppercase;
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
 }
 
 nav ul li a:hover {
-    color: #18ffff;
+  color: #18ffff;
 }
 
-/* Stile per i campi di input */
+/* Login Container */
+.login-container {
+  margin-top: 100px;
+  width: 400px;
+  background: white;
+  color: black;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+/* Tabs (Login e Registrazione) */
+.tab {
+  padding: 15px;
+  text-align: center;
+}
+
+.hidden {
+  display: none;
+}
+
+.tab h2 {
+  font-size: 22px;
+  color: #333;
+}
+
+.tab p {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 15px;
+}
+
+/* Input Fields */
 .input-field {
-    position: relative;
-    margin-bottom: 20px; /* Aggiungi spazio tra i campi */
+  position: relative;
+  margin-bottom: 20px;
 }
 
 .input-field input {
-    width: 350px;
-    height: 60px;
-    border-radius: 6px;
-    font-size: 18px;
-    padding: 0 15px;
-    border: 2px solid #fff;
-    background: transparent;
-    color: #fff;
-    outline: none;
+  width: 100%;
+  height: 45px;
+  border-radius: 6px;
+  font-size: 16px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  background: white;
+  color: black;
+  outline: none;
 }
 
 .input-field label {
-    position: absolute;
-    top: 50%;
-    left: 15px;
-    transform: translateY(-50%);
-    color: #fff;
-    font-size: 19px;
-    pointer-events: none;
-    transition: 0.3s;
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+  color: #666;
+  font-size: 16px;
+  transition: 0.3s;
 }
 
-input:focus {
-    border: 2px solid #18ffff;
+.input-field input:focus {
+  border: 1px solid #007bff;
 }
 
-input:focus ~ label,
-input:valid ~ label {
-    top: 0;
-    left: 15px;
-    font-size: 16px;
-    padding: 0 2px;
-    background: #060b23;
+.input-field input:focus ~ label,
+.input-field input:valid ~ label {
+  top: 5px;
+  left: 10px;
+  font-size: 12px;
+  background: white;
+  padding: 0 5px;
+  color: #007bff;
+}
+
+/* Buttons */
+.login-btn, .register-btn {
+  width: 100%;
+  height: 45px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  background: #007bff;
+  color: white;
+  transition: 0.3s;
+}
+
+.login-btn:hover {
+  background: #1e7e34;
+}
+
+.register-btn {
+  background: #007bff;
+}
+
+.register-btn:hover {
+  background: #1e7e34;
+}
+
+/* Switch Form Link */
+.switch-form {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.switch-form a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.switch-form a:hover {
+  text-decoration: underline;
+}
+
+/* Forgot Password */
+.forgot-password {
+  display: block;
+  text-align: right;
+  margin-bottom: 15px;
+  color: #007bff;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
 }
