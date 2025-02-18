@@ -13,10 +13,32 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #060b23;
+  background-color: #D2D2D2;
+  background-image:
+          repeating-linear-gradient(
+                  to right, transparent 0 100px,
+                  #25283b22 100px 101px
+          ),
+          repeating-linear-gradient(
+                  to bottom, transparent 0 100px,
+                  #25283b22 100px 101px
+          );
   color: white;
 }
-
+body::before{
+  position: absolute;
+  width: min(1400px, 90vw);
+  top: 10%;
+  left: 50%;
+  height: 90%;
+  transform: translateX(-50%);
+  content: '';
+  background-image: url(../images/bg.png);
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: top center;
+  pointer-events: none;
+}
 /* Navbar */
 nav {
   width: 100%;

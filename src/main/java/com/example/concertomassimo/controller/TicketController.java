@@ -35,9 +35,14 @@ public class TicketController {
     // Metodo per la registrazione
     @PostMapping("/register")
     public String register(@RequestParam String email, @RequestParam String password) {
+        // Controllo se l'email ha un dominio valido
+        if (!email.matches(".*@(gmail\\.com|yahoo\\.com|libero\\.it)$")) {
+            return "redirect:/auth?error=Email non valida!"; // Reindirizza con un messaggio di errore
+        }
+
         // Verifica se l'utente esiste già
         if (userRepository.findByEmail(email).isPresent()) {
-            return "redirect:/auth?error=Email gia in uso!"; // Reindirizza con un messaggio di errore
+            return "redirect:/auth?error=Email già in uso!"; // Reindirizza con un messaggio di errore
         }
 
         // Crea un nuovo utente
