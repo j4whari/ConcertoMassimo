@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ordine Ticket</title>
+  <style>
+    /* RESET DI BASE */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background-color: #f9f9f9;
+      padding: 20px;
+    }
+
+    h2, h3, h4 {
+      margin-bottom: 10px;
+    }
+
+    /* CONTAINER PRINCIPALE: 2 COLONNE (FORM A SINISTRA, RIEPILOGO A DESTRA) */
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .form-section {
+      flex: 1 1 600px;
+      background-color: #fff;
+      padding: 20px;
+      border: 1px solid #ccc;
+    }
+
+    .summary-section {
+      flex: 0 0 300px;
+      background-color: #fff;
+      padding: 20px;
+      border: 1px solid #ccc;
+      height: fit-content;
+      align-self: start;
+    }
+
+    /* TITOLI */
+    .form-section h2 {
+      margin-bottom: 15px;
+    }
+
+    /* GRUPPO DI INPUT (LABEL + INPUT) */
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="date"],
+    .form-group input[type="number"],
+    .form-group select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    /* RADIO E CHECKBOX (stile base) */
+    .radio-group,
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .radio-group label,
+    .checkbox-group label {
+      margin: 0;
+      font-weight: normal;
+    }
+
+    /* SEZIONE METODO DI CONSEGNA */
+    .delivery-method {
+      margin-bottom: 20px;
+    }
+
+    /* SEZIONE INDIRIZZO FATTURA DIVERSO */
+    #fattura-differente {
+      margin-bottom: 20px;
+    }
+    #fattura-differente-fields {
+      margin-top: 10px;
+      padding: 10px;
+      background-color: #f0f0f0;
+      display: none; /* nascosto di default */
+    }
+
+    /* SEZIONE PRIVACY */
+    .privacy-section {
+      margin-top: 20px;
+    }
+
+    .privacy-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    /* RIEPILOGO A DESTRA */
+    .summary-section h3 {
+      margin-bottom: 15px;
+    }
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .summary-total {
+      font-weight: bold;
+      font-size: 1.1em;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid #ccc;
+    }
+
+    /* BOTTONE FINALE */
+    .btn-submit {
+      display: inline-block;
+      margin-top: 20px;
+      background-color: #007bff;
+      color: #fff;
+      text-decoration: none;
+      padding: 12px 20px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-submit:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- SEZIONE SINISTRA: FORM -->
+  <div class="form-section">
+    <!-- Il form invia i dati a /ticket con metodo POST -->
+    <form action="/controller/ticket" method="post">
+      <input type="hidden" name="_csrf" value="${_csrf.token}" />
+      <!-- Se usi Spring Security, ricorda di inserire anche il CSRF token -->
+      <h2>Metodo di Consegna</h2>
+      <div class="delivery-method">
+        <div class="radio-group">
+          <input type="radio" id="consegna1" name="metodoConsegna" value="corriere" checked />
+          <label for="consegna1">Corriere Espresso (Consegna entro 2-3 giorni lavorativi)</label>
+        </div>
+        <div class="radio-group">
+          <input type="radio" id="consegna2" name="metodoConsegna" value="digitale" />
+          <label for="consegna2">Invio digitale (PDF stampabile)</label>
+        </div>
+        <div class="radio-group">
+          <input type="radio" id="consegna3" name="metodoConsegna" value="ritiro" />
+          <label for="consegna3">Ritiro in negozio</label>
+        </div>
+      </div>
+
+      <h2>I tuoi dati</h2>
+      <div class="form-group">
+        <label for="tipologia">Tipologia</label>
+        <select id="tipologia" name="tipologia">
+          <option value="privato">Privato</option>
+          <option value="azienda">Azienda</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="nome">Nome</label>
+        <input type="text" id="nome" name="nome" placeholder="Mario" />
+      </div>
+      <div class="form-group">
+        <label for="cognome">Cognome</label>
+        <input type="text" id="cognome" name="cognome" placeholder="Rossi" />
+      </div>
+      <div class="form-group">
+        <label for="dataNascita">Data di nascita</label>
+        <input type="date" id="dataNascita" name="dataNascita" />
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="esempio@email.com" />
+      </div>
+      <div class="form-group">
+        <label for="confermaEmail">Conferma Email</label>
+        <input type="email" id="confermaEmail" name="confermaEmail" placeholder="esempio@email.com" />
+      </div>
+      <div class="form-group">
+        <label for="nazione">Nazione</label>
+        <select id="nazione" name="nazione">
+          <option value="IT">Italia</option>
+          <option value="US">Stati Uniti</option>
+          <option value="DE">Germania</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="provincia">Provincia</label>
+        <input type="text" id="provincia" name="provincia" placeholder="Es: MI" />
+      </div>
+      <div class="form-group">
+        <label for="citta">Città</label>
+        <input type="text" id="citta" name="citta" placeholder="Milano" />
+      </div>
+      <div class="form-group">
+        <label for="indirizzo">Indirizzo</label>
+        <input type="text" id="indirizzo" name="indirizzo" placeholder="Via Roma" />
+      </div>
+      <div class="form-group">
+        <label for="civico">Numero Civico</label>
+        <input type="text" id="civico" name="civico" placeholder="10" />
+      </div>
+      <div class="form-group">
+        <label for="cap">CAP</label>
+        <input type="number" id="cap" name="cap" placeholder="20100" />
+      </div>
+
+      <div id="fattura-differente" class="checkbox-group">
+        <input type="checkbox" id="checkFatturaDifferente" name="fatturaDifferente" />
+        <label for="checkFatturaDifferente">Indica un indirizzo diverso per la fattura</label>
+      </div>
+      <div id="fattura-differente-fields">
+        <div class="form-group">
+          <label for="fatturaIndirizzo">Indirizzo per la fattura</label>
+          <input type="text" id="fatturaIndirizzo" name="fatturaIndirizzo" placeholder="Via Fatture" />
+        </div>
+        <div class="form-group">
+          <label for="fatturaCivico">Numero Civico</label>
+          <input type="text" id="fatturaCivico" name="fatturaCivico" placeholder="15" />
+        </div>
+        <div class="form-group">
+          <label for="fatturaCap">CAP</label>
+          <input type="number" id="fatturaCap" name="fatturaCap" placeholder="20100" />
+        </div>
+        <div class="form-group">
+          <label for="fatturaCitta">Città</label>
+          <input type="text" id="fatturaCitta" name="fatturaCitta" placeholder="Milano" />
+        </div>
+      </div>
+
+      <div class="privacy-section">
+        <h2>Preferenze Privacy</h2>
+        <p>Seleziona la tua preferenza sul trattamento dei dati per finalità di marketing.</p>
+        <div class="privacy-options">
+          <div class="radio-group">
+            <input type="radio" id="privacySi" name="privacyMarketing" value="si" />
+            <label for="privacySi">Acconsento</label>
+          </div>
+          <div class="radio-group">
+            <input type="radio" id="privacyNo" name="privacyMarketing" value="no" checked />
+            <label for="privacyNo">Non Acconsento</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOTTONE DI SUBMIT -->
+      <button type="submit" class="btn-submit">Vai al pagamento</button>
+    </form>
+  </div>
+
+  <!-- SEZIONE DESTRA: RIEPILOGO E PAGAMENTO -->
+  <div class="summary-section">
+    <h3>Riepilogo</h3>
+    <div class="summary-item">
+      <span>Biglietto</span>
+      <span>€ 60,00</span>
+    </div>
+    <div class="summary-item">
+      <span>Commissioni di servizio</span>
+      <span>€ 9,90</span>
+    </div>
+    <div class="summary-item">
+      <span>IVA</span>
+      <span>€ 5,60</span>
+    </div>
+    <div class="summary-total">
+      <span>Totale</span>
+      <span>€ 75,50</span>
+    </div>
+
+    <a href="#" class="btn-submit">Vai al pagamento</a>
+  </div>
+
+</div>
+
+<script>
+  // Al click del checkbox "Indica un indirizzo diverso per la fattura"
+  // mostriamo o nascondiamo i campi aggiuntivi
+  const checkFatturaDifferente = document.getElementById('checkFatturaDifferente');
+  const fatturaDifferenteFields = document.getElementById('fattura-differente-fields');
+
+  checkFatturaDifferente.addEventListener('change', function() {
+    fatturaDifferenteFields.style.display = this.checked ? 'block' : 'none';
+  });
+</script>
+
+</body>
+</html>
