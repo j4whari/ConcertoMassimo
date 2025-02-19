@@ -7,7 +7,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -16,24 +15,21 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())  // Disabilita la protezione CSRF (opzionale)
+                .csrf(csrf -> csrf.disable()) // Disabilita CSRF (opzionale)
                 .authorizeHttpRequests(auth -> auth
+                        // Permetti l'accesso alle risorse statiche
                         .requestMatchers("/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
-                        .requestMatchers("/auth", "/register", "/homepage", "/index").permitAll()  // Permette l'accesso a queste pagine senza autenticazione
-                        .anyRequest().authenticated()  // Richiede autenticazione per tutte le altre richieste
+                        // Consenti l'accesso alle pagine di login, registrazione, homepage, index e ai nostri endpoint personalizzati
+                        .requestMatchers("/auth", "/controller/register", "/controller/login", "/homepage", "/index", "/form", "/controller/ticket").permitAll()
+                        .anyRequest().authenticated()
                 )
-                .formLogin(form -> form
-                        .loginPage("/auth")  // Specifica la pagina di login personalizzata
-                        .loginProcessingUrl("controller/login")
-                        .defaultSuccessUrl("/index")  // Reindirizza qui dopo un login riuscito
-                        .failureUrl("/auth?error=true")  // Reindirizza qui in caso di errore di login
-                        .permitAll()
-                )
+                // Disabilitiamo il formLogin di Spring Security per usare il nostro controller personalizzato
+                .formLogin(form -> form.disable())
                 .logout(logout -> logout
-                        .logoutSuccessUrl("/auth?logout=true")  // Reindirizza qui dopo il logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/auth?logout=true")
                         .permitAll()
                 );
-
         return http.build();
     }
 
@@ -42,3 +38,4 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 }
+

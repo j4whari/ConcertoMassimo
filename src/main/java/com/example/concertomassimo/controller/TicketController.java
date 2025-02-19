@@ -55,7 +55,6 @@ public class TicketController {
         if (!email.matches(".*@(gmail\\.com|yahoo\\.com|libero\\.it)$")) {
             return "redirect:/auth?error=Email non valida!";
         }
-        System.out.println("ciccio pasticcio");
         if (userRepository.findByEmail(email).isPresent()) {
             return "redirect:/auth?error=Email già in uso!";
         }
