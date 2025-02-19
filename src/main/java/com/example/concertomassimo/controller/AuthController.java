@@ -6,17 +6,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class AuthController {
 
-    // Mostra la pagina login/register
-    @GetMapping("/auth")
-    public String showLoginPage() {
-        return "auth";  // Cerca il file in src/main/resources/templates/
+    @GetMapping("/homepage")
+    public String homepage() {
+        return "homepage"; // Questo cercherà form.html in src/main/resources/templates
     }
     @GetMapping("/index")
     public String home() {
         return "index"; // Questo cercherà index.html in src/main/resources/templates
     }
+    // Mostra la pagina login/register
+    @GetMapping("/auth")
+    public String showLoginPage() {
+        return "auth";  // Cerca il file in src/main/resources/templates/
+    }
     @GetMapping("/form")
     public String form() {
         return "form"; // Questo cercherà form.html in src/main/resources/templates
     }
+
 }
