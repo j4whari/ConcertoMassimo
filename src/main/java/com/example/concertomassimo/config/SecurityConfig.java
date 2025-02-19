@@ -24,6 +24,7 @@ public class SecurityConfig {
                 )
                 .formLogin(form -> form
                         .loginPage("/auth")  // Specifica la pagina di login personalizzata
+                        .loginProcessingUrl("controller/login")
                         .defaultSuccessUrl("/index")  // Reindirizza qui dopo un login riuscito
                         .failureUrl("/auth?error=true")  // Reindirizza qui in caso di errore di login
                         .permitAll()

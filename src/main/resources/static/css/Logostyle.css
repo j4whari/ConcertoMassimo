@@ -5,7 +5,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Poppins', sans-serif, 'Arial', sans-serif;
 }
 
 body {
@@ -68,7 +68,7 @@ body::before{
     }
 
     .nav-center a.logo {
-        margin-right: 80px; / Spazio tra il logo e il menu
+        margin-right: 80px;
 }
 
 .nav-center ul {
