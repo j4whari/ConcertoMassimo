@@ -156,7 +156,6 @@
   <div class="form-section">
     <!-- Il form invia i dati a /ticket con metodo POST -->
     <form action="/controller/ticket" method="post">
-      <input type="hidden" name="_csrf" value="${_csrf.token}" />
       <!-- Se usi Spring Security, ricorda di inserire anche il CSRF token -->
       <h2>Metodo di Consegna</h2>
       <div class="delivery-method">
