@@ -34,35 +34,54 @@ public class TicketController {
     // Metodo di login personalizzato
     @PostMapping("/login")
     public String login(@RequestParam String email, @RequestParam String password) {
+        email = email.toLowerCase().trim();
         Optional<User> userOptional = userRepository.findByEmail(email);
         if (userOptional.isPresent() && passwordEncoder.matches(password, userOptional.get().getPassword())) {
-            User user = userOptional.get();
-            // Crea un token di autenticazione con il principal impostato come l'utente
+            // Assegna un ruolo di base (ROLE_USER)
             UsernamePasswordAuthenticationToken authToken =
-                    new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList());
-            // Assicurati che il metodo getName() restituisca l'email: se il tuo modello User non implementa UserDetails,
-            // puoi anche impostare il principal come l'email (ad es.: new UsernamePasswordAuthenticationToken(user.getEmail(), null, ...))
+                    new UsernamePasswordAuthenticationToken(
+                            email,
+                            null,
+                            List.of(new SimpleGrantedAuthority("ROLE_USER"))
+                    );
             SecurityContextHolder.getContext().setAuthentication(authToken);
-            return "redirect:/index";  // Reindirizza alla home dopo il login
+
+            if (SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
+                return "redirect:/form";
+            } else {
+                return "redirect:/auth?error=Autenticazione fallita!";
+            }
         } else {
             return "redirect:/auth?error=Credenziali non valide!";
         }
     }
 
-    // Metodo per la registrazione (rimane invariato)
+
+
+    // Metodo per la registrazione
     @PostMapping("/register")
     public String register(@RequestParam String email, @RequestParam String password) {
+        // Normalizza l'email
+        email = email.toLowerCase().trim();
+
+        // Controlla il dominio dell'email
         if (!email.matches(".*@(gmail\\.com|yahoo\\.com|libero\\.it)$")) {
             return "redirect:/auth?error=Email non valida!";
         }
+        // Controlla se l'email esiste già
         if (userRepository.findByEmail(email).isPresent()) {
             return "redirect:/auth?error=Email già in uso!";
         }
+
+        // Crea un nuovo utente
         User user = new User();
         user.setEmail(email);
         user.setPassword(passwordEncoder.encode(password));
         user.setAttempts(0);
+
+        // Salva l'utente nel database
         userRepository.save(user);
+
         return "redirect:/auth?success=Registrazione avvenuta con successo!";
     }
 
@@ -75,20 +94,41 @@ public class TicketController {
             return "form";
         }
 
+        // Recupera l'utente autenticato dal SecurityContext
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()) {
             return "redirect:/auth?error=Utente non autenticato!";
         }
 
-        String currentEmail = authentication.getName();
+        // Otteniamo l'email dal principal
+        String currentEmail = authentication.getName().toLowerCase().trim();
+
         Optional<User> optionalUser = userRepository.findByEmail(currentEmail);
         if (!optionalUser.isPresent()) {
             return "redirect:/auth?error=Utente non trovato!";
         }
 
+        // Aggiorna i campi dell'utente con i dati inviati dal form
         User utente = optionalUser.get();
-        // Aggiorna i campi dell'utente e salva
-        // ...
+        utente.setTipologia(ticketRequest.getTipologia());
+        utente.setNome(ticketRequest.getNome());
+        utente.setCognome(ticketRequest.getCognome());
+        utente.setDataNascita(ticketRequest.getDataNascita());
+        utente.setNazione(ticketRequest.getNazione());
+        utente.setProvincia(ticketRequest.getProvincia());
+        utente.setCitta(ticketRequest.getCitta());
+        utente.setIndirizzo(ticketRequest.getIndirizzo());
+        utente.setCivico(ticketRequest.getCivico());
+        utente.setCap(ticketRequest.getCap());
+        utente.setPrivacyMarketing(ticketRequest.getPrivacyMarketing());
+
+        // Salva l'utente aggiornato
+        userRepository.save(utente);
+
+        // Esempio di generazione di un ticket o PDF (se serve)
+        // TicketResponse response = ticketService.createTicket(ticketRequest);
+        // model.addAttribute("orderId", response.getOrderId());
+        // model.addAttribute("userId", utente.getId());
 
         return "ticketConfirmation";
     }

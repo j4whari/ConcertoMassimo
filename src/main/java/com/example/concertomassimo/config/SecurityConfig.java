@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy; // <-- import per sessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -15,15 +16,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // Disabilita CSRF (opzionale)
+                .csrf(csrf -> csrf.disable())
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                )
                 .authorizeHttpRequests(auth -> auth
-                        // Permetti l'accesso alle risorse statiche
                         .requestMatchers("/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
-                        // Consenti l'accesso alle pagine di login, registrazione, homepage, index e ai nostri endpoint personalizzati
-                        .requestMatchers("/auth", "/controller/register", "/controller/login", "/homepage", "/index", "/form", "/controller/ticket").permitAll()
+                        .requestMatchers("/auth", "/controller/register", "/controller/login", "/homepage", "/index").permitAll()
+                        .requestMatchers("/form", "/controller/ticket").authenticated()
                         .anyRequest().authenticated()
                 )
-                // Disabilitiamo il formLogin di Spring Security per usare il nostro controller personalizzato
                 .formLogin(form -> form.disable())
                 .logout(logout -> logout
                         .logoutUrl("/logout")
@@ -38,4 +40,7 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 }
+
+
+
 
