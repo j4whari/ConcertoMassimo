@@ -1,0 +1,200 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #D2D2D2;
+    font-family: Arial, sans-serif;
+    background-image:
+            repeating-linear-gradient(
+                    to right, transparent 0 100px,
+                    #25283b22 100px 101px
+            ),
+            repeating-linear-gradient(
+                    to bottom, transparent 0 100px,
+                    #25283b22 100px 101px
+            );
+}
+
+body::before{
+    position: absolute;
+    width: min(1400px, 90vw);
+    top: 20%;
+    left: 50%;
+    height: 90%;
+    transform: translateX(-50%);
+    content: '';
+    background-image: url(../img/bg.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: top center;
+    pointer-events: none;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color:#ffffff;
+    border-bottom: 1px solid #000000;
+    text-transform: uppercase;
+    font-size: 15px;
+}
+
+.nav-left, .nav-center, .nav-right {
+    display: flex;
+    gap: 15px;
+}
+
+.nav-left a, .nav-right a {
+    text-decoration: none;
+    color: black;
+}
+
+.nav-center ul {
+    display: flex;
+    list-style: none;
+    gap: 15px;
+}
+
+.nav-center a {
+    text-decoration: none;
+    color: black;
+}
+
+.nav-center a.logo {
+    margin-right: 80px;
+}
+
+.nav-center {
+    display: flex;
+    align-items: center;
+}
+
+.nav-right i {
+    cursor: pointer;
+}
+
+.ticket-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #fff;
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.band-image {
+    flex: 1;
+    text-align: center;
+}
+
+.band-image img {
+    max-width: 100%;
+    border-radius: 10px;
+}
+
+.band-image h2 {
+    margin-top: 10px;
+    font-size: 24px;
+}
+
+.band-image, .ticket-options {
+    flex: 1;
+    margin: 0 10px;
+}
+
+.ticket-options {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-left: 20px;
+}
+
+.ticket-options h3 {
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+
+.ticket-type {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.ticket-button {
+    background-color: #D2D2D2;
+    width: 250px;
+    height: 50px;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.ticket-button:hover {
+    background-color: #ffbce0;
+}
+
+/* CSS for the selected button */
+.ticket-button.selected {
+    background-color: #ff66c4;  /* Color for the selected button */;
+}
+
+.quantity {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.quantity button {
+    width: 30px;
+    height: 30px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.quantity input {
+    width: 50px;
+    text-align: center;
+    border: 1px solid #ccc;
+    margin: 0 10px;
+}
+
+.total-price {
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.purchase-button-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.acquista-button {
+    background-color: #D2D2D2;  /* Matching the color of the selected ticket button */
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 150px;
+    font-weight: bold;
+}
+
+.acquista-button:hover {
+    background-color: #ffbce0;  /* Hover effect */
+}
