@@ -27,6 +27,11 @@ public class AuthController {
         return "bigliettoAcquistato"; // mostrerà bigliettoAcquistato
     }
 
+    @GetMapping("/contattaci")
+    public String contatti() {
+        return "contattaci";
+    }
+
     @GetMapping("/form")
     public String form(Authentication authentication) {
         // Controlla se l'utente è autenticato

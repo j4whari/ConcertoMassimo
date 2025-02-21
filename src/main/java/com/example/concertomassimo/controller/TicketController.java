@@ -62,7 +62,7 @@ public class TicketController {
             System.out.println("Auth after login = " + SecurityContextHolder.getContext().getAuthentication());
 
             if (SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
-                return "redirect:/form";
+                return "redirect:/homepage";
             } else {
                 return "redirect:/auth?error=Autenticazione fallita!";
             }
@@ -123,6 +123,7 @@ public class TicketController {
             return "redirect:/auth?error=Utente non trovato!";
         }
 
+        System.out.println(ticketRequest);
         // Aggiorna i campi dell'utente con i dati inviati dal form
         User utente = optionalUser.get();
         utente.setTipologia(ticketRequest.getTipologia());
@@ -141,10 +142,10 @@ public class TicketController {
         userRepository.save(utente);
 
         // Esempio di generazione di un ticket o PDF (se serve)
-        // TicketResponse response = ticketService.createTicket(ticketRequest);
-        // model.addAttribute("orderId", response.getOrderId());
-        // model.addAttribute("userId", utente.getId());
+        TicketResponse response = ticketService.createTicket(ticketRequest);
+        model.addAttribute("orderId", response.getOrderId());
+        model.addAttribute("userId", utente.getId());
 
-        return "ticketConfirmation";
+        return "bigliettoAcquistato";
     }
 }

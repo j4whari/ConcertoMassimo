@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     console.log("Form page script loaded");
 
     // Get the saved values from localStorage
@@ -41,60 +41,52 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
         console.log("No ticket price found in localStorage");
     }
-});
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Get the saved total from localStorage
-    const savedTotal = localStorage.getItem('ticketTotal');
-
-    // Find the ticket price element in the summary section
-    const ticketPriceElement = document.querySelector('.summary-item span:nth-child(2)');
-
-    // Update it with the saved total (if available)
-    if (savedTotal) {
-        // Format the price with two decimal places and € symbol
-        ticketPriceElement.textContent = `€ ${parseFloat(savedTotal).toFixed(2)}`;
-
-        // Calculate and update the final total
-        updateFinalTotal(parseFloat(savedTotal));
-    }
-
-    // Function to calculate and update the final total
-    function updateFinalTotal(ticketPrice) {
-        const serviceCharge = 9.90;
-        const vat = 5.60;
-
-        // Calculate total with all components
-        const finalTotal = (ticketPrice + serviceCharge + vat).toFixed(2);
-
-        // Update the final total display
-        document.getElementById('final-total').textContent = `${finalTotal}€`;
-    }
-});
-document.addEventListener("DOMContentLoaded", function() {
+    // Payment button and form handling
     const payButtons = document.querySelectorAll("#payButton, #payButtonSummary");
     const loadingScreen = document.getElementById("loadingScreen");
     const paymentScreen = document.getElementById("paymentScreen");
     const paymentForm = document.getElementById("paymentForm");
 
-    payButtons.forEach(button => {
-        button.addEventListener("click", function(event) {
+    if (payButtons && loadingScreen && paymentScreen && paymentForm) {
+        payButtons.forEach(button => {
+            button.addEventListener("click", function (event) {
+                event.preventDefault();
+                loadingScreen.style.display = "flex";
+                setTimeout(() => {
+                    loadingScreen.style.display = "none";
+                    paymentScreen.style.display = "flex";
+                }, 2000);
+            });
+        });
+
+        paymentForm.addEventListener("submit", function (event) {
             event.preventDefault();
             loadingScreen.style.display = "flex";
             setTimeout(() => {
                 loadingScreen.style.display = "none";
-                paymentScreen.style.display = "flex";
+                alert("Pagamento effettuato con successo!");
+                window.location.href = "/biglietto"; // Reindirizza alla pagina di conferma
             }, 2000);
         });
-    });
-
-    paymentForm.addEventListener("submit", function(event) {
-        event.preventDefault();
-        loadingScreen.style.display = "flex";
-        setTimeout(() => {
-            loadingScreen.style.display = "none";
-            alert("Pagamento effettuato con successo!");
-            window.location.href = "/biglietto"; // Reindirizza alla pagina di conferma
-        }, 2000);
-    });
+    } else {
+        console.error("Uno o più elementi per il pagamento non trovati nel DOM.");
+    }
 });
+
+// Funzione per calcolare e aggiornare il totale finale
+function updateFinalTotal(ticketPrice) {
+    const serviceCharge = 9.90;
+    const vat = 5.60;
+
+    // Calcola il totale con tutte le componenti
+    const finalTotal = (ticketPrice + serviceCharge + vat).toFixed(2);
+
+    // Aggiorna il display del totale finale
+    const finalTotalElement = document.getElementById('final-total');
+    if (finalTotalElement) {
+        finalTotalElement.textContent = `${finalTotal}€`;
+    } else {
+        console.error("Elemento 'final-total' non trovato nel DOM.");
+    }
+}

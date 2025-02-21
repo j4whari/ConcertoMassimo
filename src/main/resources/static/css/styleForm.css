@@ -20,6 +20,21 @@ body {
             );
 }
 
+body::before{
+    position: absolute;
+    width: min(1400px, 90vw);
+    top: 10%;
+    left: 50%;
+    height: 90%;
+    transform: translateX(-50%);
+    content: '';
+    background-image: url(../images/bg.png);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: top center;
+    pointer-events: none;
+}
+
 h2, h3, h4 {
     margin-bottom: 10px;
 }
@@ -38,6 +53,7 @@ h2, h3, h4 {
     background-color: #fff;
     padding: 20px;
     border: 1px solid #ccc;
+    margin: 120px auto;
 }
 
 .summary-section {
@@ -47,6 +63,7 @@ h2, h3, h4 {
     border: 1px solid #ccc;
     height: fit-content;
     align-self: start;
+    margin: 120px auto;
 }
 
 /* TITOLI */
@@ -137,8 +154,8 @@ h2, h3, h4 {
 .btn-submit {
     display: inline-block;
     margin-top: 20px;
-    background-color: #007bff;
-    color: #fff;
+    background-color: #D2D2D2;
+    color: #000000;
     text-decoration: none;
     padding: 12px 20px;
     border-radius: 4px;
@@ -147,7 +164,7 @@ h2, h3, h4 {
 }
 
 .btn-submit:hover {
-    background-color: #0056b3;
+    background-color: #ffbce0;
 }
 .navbar {
     display: flex;

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contattaci</title>
+  <link rel="stylesheet" href="/css/styleContatti.css">
+</head>
+<body>
+<nav class="navbar">
+  <div class="nav-left">
+    <span>Italia / € EUR</span>
+    <a href="/contattaci">Contattaci</a>
+  </div>
+
+  <div class="nav-center">
+    <a href="/homepage" class="logo">
+      <img src="/img/P Logo .png" alt="Logo" style="height: 65px;"> <!-- Imposta l'altezza del logo -->
+    </a>
+    <ul>
+      <li><a href="#">NUOVI ARRIVI</a></li>
+      <li><a href="#">ARTISTI</a></li>
+      <li><a href="#">EVENTI IN CORSO</a></li>
+    </ul>
+  </div>
+
+  <div class="nav-right">
+    <a href="/auth">Accedi</a>
+    <i class="fas fa-search"></i>
+    <i class="far fa-heart"></i>
+    <i class="fas fa-shopping-bag"></i>
+  </div>
+</nav>
+
+<div class="form-container">
+
+  <section id="contattaci">
+    <h2>Contattaci</h2>
+    <p>Hai domande? Compila il modulo o contattaci direttamente.</p>
+
+    <div>
+      <form action="#" method="post">
+        <label for="nome">Nome</label>
+        <input type="text" id="nome" name="nome" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="messaggio">Messaggio</label>
+        <textarea id="messaggio" name="messaggio" required></textarea>
+
+        <button type="submit">Invia</button>
+      </form>
+    </div>
+
+    <div>
+      <p><strong>Email:</strong> supporto@prevenditabiglietti.com</p>
+      <p><strong>Telefono:</strong> +39 123 456 7890</p>
+      <p><strong>Indirizzo:</strong> Via Roma, 123, 00100 Roma, Italia</p>
+    </div>
+  </section>
+
+  <div class="map-container">
+    <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2965.3776489433226!2d12.72026681208882!3d41.992170071109484!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x132f79fb12755133%3A0x975ddf7621ee653a!2sV.le%20Roma%2C%20123%2C%2000012%20Guidonia%20Montecelio%20RM!5e0!3m2!1sen!2sit!4v1740147821585!5m2!1sen!2sit"
+            width="100%"
+            height="300"
+            style="border:0;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"></iframe>
+  </div>
+
+</div>
+</body>
+</html>
