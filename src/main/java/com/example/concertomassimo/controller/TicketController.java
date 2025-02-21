@@ -5,6 +5,8 @@ import com.example.concertomassimo.dto.TicketResponse;
 import com.example.concertomassimo.model.User;
 import com.example.concertomassimo.repository.UserRepository;
 import com.example.concertomassimo.service.TicketService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -36,18 +38,28 @@ public class TicketController {
 
     // Metodo di login personalizzato
     @PostMapping("/login")
-    public String login(@RequestParam String email, @RequestParam String password) {
+    public String login(@RequestParam String email,
+                        @RequestParam String password,
+                        HttpServletRequest request) {
+        // Normalizza l'email
         email = email.toLowerCase().trim();
         Optional<User> userOptional = userRepository.findByEmail(email);
         if (userOptional.isPresent() && passwordEncoder.matches(password, userOptional.get().getPassword())) {
-            // Assegna un ruolo di base (ROLE_USER)
+            // Crea il token con un ruolo (o senza, se non vuoi controlli sui ruoli)
             UsernamePasswordAuthenticationToken authToken =
                     new UsernamePasswordAuthenticationToken(
                             email,
                             null,
                             List.of(new SimpleGrantedAuthority("ROLE_USER"))
                     );
+            // Imposta il token nel SecurityContext
             SecurityContextHolder.getContext().setAuthentication(authToken);
+
+            // Salva manualmente il SecurityContext nella sessione
+            HttpSession session = request.getSession(true);
+            session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
+
+            System.out.println("Auth after login = " + SecurityContextHolder.getContext().getAuthentication());
 
             if (SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
                 return "redirect:/form";
