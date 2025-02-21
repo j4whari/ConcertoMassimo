@@ -1,101 +1,82 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pagina con Menu, Banner e Acquisto Biglietti</title>
-    <!-- Include Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Include custom CSS -->
-    <link rel="stylesheet" href="styles.css">
+    <title>Ticket Purchase</title>
+    <link rel="stylesheet" href="/css/style2.css">
 </head>
 <body>
 
-<!-- Menu Box -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark transparent-navbar">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">Logo</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item"><a class="nav-link" href="#">MENU</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">LOCALITÀ</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">FAQ</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">LOGIN</a></li>
-            </ul>
-        </div>
+<nav class="navbar">
+    <div class="nav-left">
+        <span>Italia / € EUR</span>
+        <a href="#">Contattaci</a>
+    </div>
+
+    <div class="nav-center">
+        <a href="/homepage" class="logo">
+            <img src="/img/P Logo .png" alt="Logo" style="height: 65px;"> <!-- Imposta l'altezza del logo -->
+        </a>
+        <ul>
+            <li><a href="#">NUOVI ARRIVI</a></li>
+            <li><a href="#">ARTISTI</a></li>
+            <li><a href="#">EVENTI IN CORSO</a></li>
+        </ul>
+    </div>
+
+    <div class="nav-right">
+        <a href="/auth">Accedi</a>
+        <i class="fas fa-search"></i>
+        <i class="far fa-heart"></i>
+        <i class="fas fa-shopping-bag"></i>
     </div>
 </nav>
 
-<!-- Banner -->
-<div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
-    <div class="carousel-inner">
-        <div class="carousel-item active">
-            <img src="img/SLIDE1.avif" class="d-block w-100" alt="Banner">
-        </div>
-        <div class="carousel-item">
-            <img src="img/SLIDE2.jpg" class="d-block w-100" alt="Banner">
-        </div>
+<div class="ticket-container">
+    <div class="band-image">
+        <img src="/img/Bruce_Springsteen.jpg" alt="Band Image">
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#bannerCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-    </button>
-</div>
 
-<!-- Sezione Acquisto Biglietti -->
-<div class="container mt-5">
-    <h2>Acquista Biglietti</h2>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Biglietto A</h5>
-                    <p class="card-text" id="ticketAPrice">€50</p>
-                    <button class="btn btn-primary" onclick="increasePrice('ticketA')">Aggiungi</button>
-                </div>
-            </div>
+    <div class="ticket-options">
+        <h1>Bruce Springsteen</h1>
+        <h3>Roma Circo Massimo</h3>
+        <div class="ticket-type">
+            <button class="ticket-button" data-price="45">STANDARD - 45€</button>
         </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Biglietto B</h5>
-                    <p class="card-text" id="ticketBPrice">€60</p>
-                    <button class="btn btn-primary" onclick="increasePrice('ticketB')">Aggiungi</button>
-                </div>
-            </div>
+
+        <div class="ticket-type">
+            <button class="ticket-button" data-price="65">VIP 👑 - 65€</button>
         </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Biglietto C</h5>
-                    <p class="card-text" id="ticketCPrice">€70</p>
-                    <button class="btn btn-primary" onclick="increasePrice('ticketC')">Aggiungi</button>
-                </div>
-            </div>
+
+        <div class="ticket-type">
+            <button class="ticket-button" data-price="90">PLATEA 🎟️ - 90€</button>
+        </div>
+
+        <div class="ticket-type">
+            <button class="ticket-button" data-price="120">TRIBUNA 🎉 - 120€</button>
+        </div>
+
+        <div class="quantity">
+            <button onclick="changeQuantity(-1)">-</button>
+            <input type="number" id="quantity" value="1" min="1" max="4">
+            <button onclick="changeQuantity(1)">+</button>
+        </div>
+
+        <div class="total-price">
+            Total: <span id="total">0€</span>
+        </div>
+
+        <!-- Acquista Button -->
+        <div class="purchase-button-container">
+            <a href="/form">
+                <button id="acquista-button" class="acquista-button">Acquista</button>
+            </a>
+
         </div>
     </div>
 </div>
 
-<!-- Include Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-<!-- Custom JS for Increase Price -->
-<script>
-    function increasePrice(ticket) {
-        let priceElement = document.getElementById(ticket + 'Price');
-        let currentPrice = parseInt(priceElement.innerText.replace('€', ''));
-        priceElement.innerText = '€' + (currentPrice + 10);
-    }
-</script>
-
+<script src="/js/script.js"></script>
 </body>
 </html>

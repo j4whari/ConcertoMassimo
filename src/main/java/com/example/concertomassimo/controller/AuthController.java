@@ -22,6 +22,11 @@ public class AuthController {
         return "auth"; // mostrerà auth.html
     }
 
+    @GetMapping("/biglietto")
+    public String bigliettoAcquistato() {
+        return "bigliettoAcquistato"; // mostrerà bigliettoAcquistato
+    }
+
     @GetMapping("/form")
     public String form(Authentication authentication) {
         // Controlla se l'utente è autenticato

@@ -3,161 +3,37 @@
 <head>
   <meta charset="UTF-8" />
   <title>Ordine Ticket</title>
-  <style>
-    /* RESET DI BASE */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
-
-    body {
-      background-color: #f9f9f9;
-      padding: 20px;
-    }
-
-    h2, h3, h4 {
-      margin-bottom: 10px;
-    }
-
-    /* CONTAINER PRINCIPALE: 2 COLONNE (FORM A SINISTRA, RIEPILOGO A DESTRA) */
-    .container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .form-section {
-      flex: 1 1 600px;
-      background-color: #fff;
-      padding: 20px;
-      border: 1px solid #ccc;
-    }
-
-    .summary-section {
-      flex: 0 0 300px;
-      background-color: #fff;
-      padding: 20px;
-      border: 1px solid #ccc;
-      height: fit-content;
-      align-self: start;
-    }
-
-    /* TITOLI */
-    .form-section h2 {
-      margin-bottom: 15px;
-    }
-
-    /* GRUPPO DI INPUT (LABEL + INPUT) */
-    .form-group {
-      margin-bottom: 15px;
-    }
-    .form-group label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
-    }
-    .form-group input[type="text"],
-    .form-group input[type="email"],
-    .form-group input[type="date"],
-    .form-group input[type="number"],
-    .form-group select {
-      width: 100%;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-
-    /* RADIO E CHECKBOX (stile base) */
-    .radio-group,
-    .checkbox-group {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-    .radio-group label,
-    .checkbox-group label {
-      margin: 0;
-      font-weight: normal;
-    }
-
-    /* SEZIONE METODO DI CONSEGNA */
-    .delivery-method {
-      margin-bottom: 20px;
-    }
-
-    /* SEZIONE INDIRIZZO FATTURA DIVERSO */
-    #fattura-differente {
-      margin-bottom: 20px;
-    }
-    #fattura-differente-fields {
-      margin-top: 10px;
-      padding: 10px;
-      background-color: #f0f0f0;
-      display: none; /* nascosto di default */
-    }
-
-    /* SEZIONE PRIVACY */
-    .privacy-section {
-      margin-top: 20px;
-    }
-
-    .privacy-options {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    /* RIEPILOGO A DESTRA */
-    .summary-section h3 {
-      margin-bottom: 15px;
-    }
-    .summary-item {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 8px;
-    }
-    .summary-total {
-      font-weight: bold;
-      font-size: 1.1em;
-      margin-top: 10px;
-      padding-top: 10px;
-      border-top: 1px solid #ccc;
-    }
-
-    /* BOTTONE FINALE */
-    .btn-submit {
-      display: inline-block;
-      margin-top: 20px;
-      background-color: #007bff;
-      color: #fff;
-      text-decoration: none;
-      padding: 12px 20px;
-      border-radius: 4px;
-      border: none;
-      cursor: pointer;
-    }
-
-    .btn-submit:hover {
-      background-color: #0056b3;
-    }
-  </style>
+  <link rel="stylesheet" href="/css/styleForm.css">
 </head>
 <body>
+<nav class="navbar">
+  <div class="nav-left">
+    <span>Italia / € EUR</span>
+    <a href="#">Contattaci</a>
+  </div>
+  <div class="nav-center">
+    <a href="/homepage" class="logo">
+      <img src="img/P Logo .png" alt="Logo" style="height: 65px;">
+    </a>
+    <ul>
+      <li><a href="#">NUOVI ARRIVI</a></li>
+      <li><a href="#">ARTISTI</a></li>
+      <li><a href="#">EVENTI IN CORSO</a></li>
+    </ul>
+  </div>
+  <div class="nav-right">
+    <a href="/auth">Accedi</a>
+    <i class="fas fa-search"></i>
+    <i class="far fa-heart"></i>
+    <i class="fas fa-shopping-bag"></i>
+  </div>
+</nav>
 
 <div class="container">
-
   <!-- SEZIONE SINISTRA: FORM -->
   <div class="form-section">
-    <!-- Il form invia i dati a /ticket con metodo POST -->
     <form action="/controller/ticket" method="post">
       <input type="hidden" name="_csrf" value="${_csrf.token}" />
-      <!-- Se usi Spring Security, ricorda di inserire anche il CSRF token -->
       <h2>Metodo di Consegna</h2>
       <div class="delivery-method">
         <div class="radio-group">
@@ -173,7 +49,6 @@
           <label for="consegna3">Ritiro in negozio</label>
         </div>
       </div>
-
       <h2>I tuoi dati</h2>
       <div class="form-group">
         <label for="tipologia">Tipologia</label>
@@ -230,7 +105,6 @@
         <label for="cap">CAP</label>
         <input type="number" id="cap" name="cap" placeholder="20100" />
       </div>
-
       <div id="fattura-differente" class="checkbox-group">
         <input type="checkbox" id="checkFatturaDifferente" name="fatturaDifferente" />
         <label for="checkFatturaDifferente">Indica un indirizzo diverso per la fattura</label>
@@ -253,7 +127,6 @@
           <input type="text" id="fatturaCitta" name="fatturaCitta" placeholder="Milano" />
         </div>
       </div>
-
       <div class="privacy-section">
         <h2>Preferenze Privacy</h2>
         <p>Seleziona la tua preferenza sul trattamento dei dati per finalità di marketing.</p>
@@ -268,9 +141,7 @@
           </div>
         </div>
       </div>
-
-      <!-- BOTTONE DI SUBMIT -->
-      <button type="submit" class="btn-submit">Vai al pagamento</button>
+      <button type="submit" class="btn-submit" id="payButton">Vai al pagamento</button>
     </form>
   </div>
 
@@ -293,22 +164,38 @@
       <span>Totale</span>
       <span>€ 75,50</span>
     </div>
-
-    <a href="#" class="btn-submit">Vai al pagamento</a>
+    <a href="#" class="btn-submit" id="payButtonSummary">Vai al pagamento</a>
   </div>
-
 </div>
 
-<script>
-  // Al click del checkbox "Indica un indirizzo diverso per la fattura"
-  // mostriamo o nascondiamo i campi aggiuntivi
-  const checkFatturaDifferente = document.getElementById('checkFatturaDifferente');
-  const fatturaDifferenteFields = document.getElementById('fattura-differente-fields');
+<!-- Schermata di caricamento -->
+<div id="loadingScreen" class="loading-screen">
+  <div class="loading-spinner"></div>
+  <p>Caricamento in corso...</p>
+</div>
 
-  checkFatturaDifferente.addEventListener('change', function() {
-    fatturaDifferenteFields.style.display = this.checked ? 'block' : 'none';
-  });
-</script>
+<!-- Schermata di pagamento -->
+<div id="paymentScreen" class="payment-screen">
+  <div class="payment-form">
+    <h2>Inserisci i dati della carta</h2>
+    <form id="paymentForm">
+      <div class="form-group">
+        <label for="cardNumber">Numero della carta</label>
+        <input type="text" id="cardNumber" name="cardNumber" placeholder="1234 5678 9012 3456" required>
+      </div>
+      <div class="form-group">
+        <label for="expiryDate">Data di scadenza</label>
+        <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YY" required>
+      </div>
+      <div class="form-group">
+        <label for="cvv">CVV</label>
+        <input type="text" id="cvv" name="cvv" placeholder="123" required>
+      </div>
+      <button type="submit" class="btn-submit">Paga</button>
+    </form>
+  </div>
+</div>
 
+<script src="/js/scriptForm.js"></script>
 </body>
 </html>
