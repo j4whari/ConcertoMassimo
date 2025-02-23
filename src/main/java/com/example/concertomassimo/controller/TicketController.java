@@ -159,7 +159,7 @@ public class TicketController {
     @PostMapping("/aggiungiArtista")
     public String inserisciArtista(
             @RequestParam("nome") String nome,
-            @RequestParam("link") String link,
+            @RequestParam("audio_url") String audioUrl,
             @RequestParam("immagine") MultipartFile immagine) {
 
         try {
@@ -167,7 +167,7 @@ public class TicketController {
             // Salva l'artista nel database
             Artista artista = new Artista();
             artista.setNome(nome);
-            artista.setLink(link);
+            artista.setAudioUrl(audioUrl);
             artista.setImmagine(immagineBytes); // Assicurati che il campo in DB sia di tipo BLOB
 
             artistaRepository.save(artista); // Salva nel database
@@ -176,5 +176,11 @@ public class TicketController {
         } catch (IOException e) {
             return "redirect:/errore";
         }
+    }
+    @GetMapping("/eventi")
+    public String mostraEventi(Model model) {
+        List<Artista> artisti = artistaRepository.findAll();
+        model.addAttribute("artisti", artisti);
+        return "eventiInCorso";
     }
 }

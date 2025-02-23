@@ -2,6 +2,8 @@ package com.example.concertomassimo.model;
 
 import jakarta.persistence.*;
 
+import java.util.Base64;
+
 @Entity
 @Table(name = "artista")
 public class Artista {
@@ -10,15 +12,15 @@ public class Artista {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
-    private String link;
+    private String audioUrl;
     @Lob
     private byte[] immagine;
 
 
-    public Artista(Long id, String nome, String link, byte[] immagine) {
+    public Artista(Long id, String nome, String audioUrl, byte[] immagine) {
         this.id = id;
         this.nome = nome;
-        this.link = link;
+        this.audioUrl = audioUrl;
         this.immagine = immagine;
     }
 
@@ -33,10 +35,14 @@ public class Artista {
     public String getNome() { return nome; }
     public void setNome(String nome) { this.nome = nome; }
 
-    public String getLink() { return link; }
-    public void setLink(String link) { this.link = link; }
-
-    public byte[] getImmagine() { return immagine; }
+    public String getImmagineBase64() {
+        if (this.immagine != null) {
+            return Base64.getEncoder().encodeToString(this.immagine);
+        }
+        return null;
+    }
     public void setImmagine(byte[] immagine) { this.immagine = immagine; }
 
+    public String getAudioUrl() { return audioUrl; }
+    public void setAudioUrl(String audioUrl) { this.audioUrl = audioUrl; }
 }

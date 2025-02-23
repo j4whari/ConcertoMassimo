@@ -1,8 +1,12 @@
 package com.example.concertomassimo.controller;
 
+import com.example.concertomassimo.model.Artista;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import java.util.List;
 
 @Controller
 public class AuthController {

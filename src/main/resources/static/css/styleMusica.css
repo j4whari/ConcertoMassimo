@@ -1,0 +1,54 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+.artista-container {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.artista-immagine img {
+    width: 200px;
+    height: 200px;
+    border-radius: 8px;
+    margin-right: 20px;
+}
+
+.artista-info {
+    flex: 1;
+}
+
+.artista-nome {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.audio-container {
+    width: 100%;
+    max-width: 400px;
+}
+
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
