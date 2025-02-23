@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Pagamento Sicuro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* Import font aggiuntivi */
+    @import url('https://fonts.cdnfonts.com/css/ica-rubrik-black');
+    @import url('https://fonts.cdnfonts.com/css/poppins');
+
+    /* Reset e impostazioni di base */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Body background (dal CSS fornito) */
+    body {
+      background-color: #D2D2D2;
+      font-family: Arial, sans-serif;
+      background-image:
+              repeating-linear-gradient(
+                      to right, transparent 0 100px,
+                      #25283b22 100px 101px
+              ),
+              repeating-linear-gradient(
+                      to bottom, transparent 0 100px,
+                      #25283b22 100px 101px
+              );
+      min-height: 100vh;
+      padding: 20px;
+      position: relative;
+      overflow-y: auto;
+    }
+
+    /* Container principale per il checkout */
+    .checkout-container {
+      background: #fff;
+      max-width: 500px;
+      width: 100%;
+      border-radius: 10px;
+      padding: 30px 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+      z-index: 1;
+      margin: 40px auto;
+    }
+    .checkout-container.visible {
+      opacity: 1;
+    }
+    .checkout-container h2 {
+      margin-bottom: 20px;
+      font-size: 1.8em;
+      color: #333;
+    }
+
+    /* Logo in cima */
+    .checkout-container .logo {
+      display: block;
+      margin: 0 auto 20px auto;
+      max-width: 130px;
+    }
+
+    /* Stile per i metodi di pagamento */
+    .payment-methods {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    .payment-method {
+      background: #f7f7f7;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      text-align: left;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .payment-method:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .payment-method h3 {
+      display: flex;
+      align-items: center;
+      font-size: 1.2em;
+      margin-bottom: 10px;
+      color: #444;
+    }
+    .method-logo {
+      height: 28px;
+      margin-right: 10px;
+    }
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: 600;
+      color: #555;
+    }
+    input[type="text"],
+    input[type="tel"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 0.95em;
+    }
+    .error-message {
+      display: block;
+      margin-top: 5px;
+      font-size: 0.85em;
+      color: #d60000;
+      min-height: 18px;
+    }
+    .paypal-btn {
+      display: inline-block;
+      background-color: #ffc439;
+      color: #111;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 15px;
+      transition: background-color 0.2s;
+    }
+    .paypal-btn:hover {
+      background-color: #ffb11e;
+    }
+    .checkout-button {
+      width: 100%;
+      background-color: #007BFF;
+      color: #fff;
+      font-size: 1em;
+      padding: 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .checkout-button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Loading screen */
+    #loadingScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255,255,255,0.9);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .spinner {
+      border: 6px solid #f3f3f3;
+      border-top: 6px solid #007BFF;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 10px;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Loading Screen -->
+<div id="loadingScreen">
+  <div class="spinner"></div>
+  <p>Caricamento in corso...</p>
+</div>
+
+<!-- Pagina di Pagamento -->
+<div class="checkout-container" id="checkoutContainer">
+  <!-- Logo in alto -->
+  <img src="/img/P Logo .png" alt="Logo Palco" class="logo">
+
+  <h2>Pagamento Sicuro</h2>
+
+  <div class="payment-methods">
+    <!-- Metodo Mastercard -->
+    <div class="payment-method">
+      <h3>
+        <img class="method-logo"
+             src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg"
+             alt="Mastercard logo">
+        Mastercard
+      </h3>
+      <label for="cardNumber">Numero carta</label>
+      <input type="text" id="cardNumber" maxlength="19" placeholder="XXXX XXXX XXXX XXXX">
+      <span class="error-message" id="cardNumberError"></span>
+
+      <div style="display: flex; gap: 10px;">
+        <div style="flex:1;">
+          <label for="expiryDate">Scadenza</label>
+          <input type="text" id="expiryDate" maxlength="5" placeholder="MM/YY">
+          <span class="error-message" id="expiryDateError"></span>
+        </div>
+        <div style="flex:1;">
+          <label for="cvv">CVV</label>
+          <input type="text" id="cvv" maxlength="3" placeholder="123">
+          <span class="error-message" id="cvvError"></span>
+        </div>
+      </div>
+      <label for="cardHolder">Titolare</label>
+      <input type="text" id="cardHolder" placeholder="Mario Rossi">
+      <span class="error-message" id="cardHolderError"></span>
+    </div>
+
+    <!-- Metodo PayPal -->
+    <div class="payment-method">
+      <h3>
+        <img class="method-logo"
+             src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg"
+             alt="PayPal logo">
+        PayPal
+      </h3>
+      <p>Paga in modo rapido con il tuo account PayPal.</p>
+      <button class="paypal-btn">Paga con PayPal</button>
+    </div>
+  </div>
+  <button class="checkout-button" id="checkoutBtn">Acquista ora</button>
+</div>
+
+<script>
+  // Preloader: simula caricamento per 2 secondi
+  window.addEventListener("load", function() {
+    setTimeout(function() {
+      document.getElementById("loadingScreen").style.display = "none";
+      document.getElementById("checkoutContainer").classList.add("visible");
+    }, 2000);
+  });
+
+  // Riferimenti agli input
+  const cardNumberInput = document.getElementById('cardNumber');
+  const expiryDateInput = document.getElementById('expiryDate');
+  const cvvInput = document.getElementById('cvv');
+  const cardHolderInput = document.getElementById('cardHolder');
+
+  // Riferimenti ai messaggi di errore
+  const cardNumberError = document.getElementById('cardNumberError');
+  const expiryDateError = document.getElementById('expiryDateError');
+  const cvvError = document.getElementById('cvvError');
+  const cardHolderError = document.getElementById('cardHolderError');
+
+  // Funzione per formattare il numero della carta (inserisce spazi ogni 4 cifre)
+  function formatCardNumber(value) {
+    return value.replace(/\D/g, '').replace(/(.{4})/g, '$1 ').trim();
+  }
+
+  // Funzione per formattare la data di scadenza (aggiunge "/" dopo 2 numeri)
+  function formatExpiryDate(value) {
+    value = value.replace(/\D/g, '');
+    if (value.length > 2) {
+      return value.substring(0,2) + '/' + value.substring(2,4);
+    }
+    return value;
+  }
+
+  // Event listener per il numero della carta
+  cardNumberInput.addEventListener('input', function(e) {
+    const formatted = formatCardNumber(cardNumberInput.value);
+    cardNumberInput.value = formatted;
+    // Limitiamo a 16 cifre (4 gruppi da 4)
+    if (formatted.replace(/\s/g, '').length > 16) {
+      cardNumberInput.value = formatted.substring(0, 19);
+    }
+    validateCardNumber();
+  });
+
+  // Impedisci l'inserimento di numeri nel campo del titolare
+  cardHolderInput.addEventListener('input', function(e) {
+    cardHolderInput.value = cardHolderInput.value.replace(/[0-9]/g, '');
+    validateCardHolder();
+  });
+
+  // Event listener per la data di scadenza
+  expiryDateInput.addEventListener('input', function(e) {
+    const formatted = formatExpiryDate(expiryDateInput.value);
+    expiryDateInput.value = formatted;
+    validateExpiryDate();
+  });
+
+  // Event listener per il CVV: solo numeri
+  cvvInput.addEventListener('input', function(e) {
+    cvvInput.value = cvvInput.value.replace(/\D/g, '');
+    validateCVV();
+  });
+
+  // Funzioni di validazione
+  function validateCardNumber() {
+    const value = cardNumberInput.value.replace(/\s+/g, '');
+    if (!/^\d{16}$/.test(value)) {
+      cardNumberError.textContent = 'Inserire esattamente 16 cifre.';
+    } else {
+      cardNumberError.textContent = '';
+    }
+  }
+
+  function validateExpiryDate() {
+    const value = expiryDateInput.value;
+    if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(value)) {
+      expiryDateError.textContent = 'Formato non valido. Usa MM/YY.';
+    } else {
+      expiryDateError.textContent = '';
+    }
+  }
+
+  function validateCVV() {
+    const value = cvvInput.value;
+    if (!/^\d{3}$/.test(value)) {
+      cvvError.textContent = 'Inserire un CVV di 3 cifre.';
+    } else {
+      cvvError.textContent = '';
+    }
+  }
+
+  function validateCardHolder() {
+    const value = cardHolderInput.value.trim();
+    if (value.length < 3) {
+      cardHolderError.textContent = 'Inserire il nome del titolare (min. 3 caratteri).';
+    } else {
+      cardHolderError.textContent = '';
+    }
+  }
+
+  // Controllo finale al click su "Acquista ora"
+  const checkoutBtn = document.getElementById('checkoutBtn');
+  checkoutBtn.addEventListener('click', function(event) {
+    // Esegui tutte le validazioni
+    validateCardNumber();
+    validateExpiryDate();
+    validateCVV();
+    validateCardHolder();
+
+    if (cardNumberError.textContent ||
+            expiryDateError.textContent ||
+            cvvError.textContent ||
+            cardHolderError.textContent) {
+      event.preventDefault();
+      alert('Correggi gli errori prima di procedere con il pagamento.');
+    } else {
+      alert('Pagamento effettuato con successo (simulazione)!');
+      // Qui potresti inserire la logica reale di pagamento
+    }
+  });
+</script>
+
+</body>
+</html>

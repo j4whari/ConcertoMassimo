@@ -150,11 +150,11 @@ public class TicketController {
         userRepository.save(utente);
 
         // Esempio di generazione di un ticket o PDF (se serve)
-        TicketResponse response = ticketService.createTicket(ticketRequest);
-        model.addAttribute("orderId", response.getOrderId());
-        model.addAttribute("userId", utente.getId());
+        // TicketResponse response = ticketService.createTicket(ticketRequest);
+        // model.addAttribute("orderId", response.getOrderId());
+        // model.addAttribute("userId", utente.getId());
 
-        return "bigliettoAcquistato";
+        return "pagamento";
     }
     @PostMapping("/aggiungiArtista")
     public String inserisciArtista(
@@ -177,6 +177,8 @@ public class TicketController {
             return "redirect:/errore";
         }
     }
+
+
     @GetMapping("/eventi")
     public String mostraEventi(Model model) {
         List<Artista> artisti = artistaRepository.findAll();

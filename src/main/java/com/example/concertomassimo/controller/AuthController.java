@@ -39,6 +39,10 @@ public class AuthController {
     public String aggiungiartista() {
         return "aggiungiArtista";
     }
+    @GetMapping("/pagamento")
+    public String pagamento() {
+        return "pagamento"; // restituisce la view pagamento.html
+    }
 
     @GetMapping("/form")
     public String form(Authentication authentication) {
