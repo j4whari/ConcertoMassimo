@@ -2,7 +2,9 @@ package com.example.concertomassimo.controller;
 
 import com.example.concertomassimo.dto.TicketRequest;
 import com.example.concertomassimo.dto.TicketResponse;
+import com.example.concertomassimo.model.Artista;
 import com.example.concertomassimo.model.User;
+import com.example.concertomassimo.repository.ArtistaRepository;
 import com.example.concertomassimo.repository.UserRepository;
 import com.example.concertomassimo.service.TicketService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,9 +19,12 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Optional;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 
 
@@ -29,6 +34,9 @@ public class TicketController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ArtistaRepository artistaRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -147,5 +155,26 @@ public class TicketController {
         model.addAttribute("userId", utente.getId());
 
         return "bigliettoAcquistato";
+    }
+    @PostMapping("/aggiungiArtista")
+    public String inserisciArtista(
+            @RequestParam("nome") String nome,
+            @RequestParam("link") String link,
+            @RequestParam("immagine") MultipartFile immagine) {
+
+        try {
+            byte[] immagineBytes = immagine.getBytes(); // Converte il file in array di byte
+            // Salva l'artista nel database
+            Artista artista = new Artista();
+            artista.setNome(nome);
+            artista.setLink(link);
+            artista.setImmagine(immagineBytes); // Assicurati che il campo in DB sia di tipo BLOB
+
+            artistaRepository.save(artista); // Salva nel database
+
+            return "redirect:/homepage";
+        } catch (IOException e) {
+            return "redirect:/errore";
+        }
     }
 }

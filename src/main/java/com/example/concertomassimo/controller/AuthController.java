@@ -31,6 +31,10 @@ public class AuthController {
     public String contatti() {
         return "contattaci";
     }
+    @GetMapping("/aggiungiArtista")
+    public String aggiungiartista() {
+        return "aggiungiArtista";
+    }
 
     @GetMapping("/form")
     public String form(Authentication authentication) {

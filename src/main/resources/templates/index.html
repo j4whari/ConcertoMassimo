@@ -1,22 +1,21 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ticket Purchase</title>
-    <link rel="stylesheet" href="/css/style2.css">
+    <link rel="stylesheet" href="/css/style2.css" />
 </head>
 <body>
-
 <nav class="navbar">
     <div class="nav-left">
         <span>Italia / € EUR</span>
         <a href="/contattaci">Contattaci</a>
     </div>
-
     <div class="nav-center">
         <a href="/homepage" class="logo">
-            <img src="/img/P Logo .png" alt="Logo" style="height: 65px;"> <!-- Imposta l'altezza del logo -->
+            <img src="/img/P Logo .png" alt="Logo" style="height: 65px;" />
         </a>
         <ul>
             <li><a href="#">NUOVI ARRIVI</a></li>
@@ -24,7 +23,6 @@
             <li><a href="#">EVENTI IN CORSO</a></li>
         </ul>
     </div>
-
     <div class="nav-right">
         <a href="/auth">Accedi</a>
         <i class="fas fa-search"></i>
@@ -37,42 +35,29 @@
     <div class="band-image">
         <img src="/img/Bruce_Springsteen.jpg" alt="Band Image">
     </div>
-
     <div class="ticket-options">
         <h1>Bruce Springsteen</h1>
         <h3>Roma Circo Massimo</h3>
         <div class="ticket-type">
             <button class="ticket-button" data-price="45">STANDARD - 45€</button>
         </div>
-
         <div class="ticket-type">
             <button class="ticket-button" data-price="65">VIP 👑 - 65€</button>
         </div>
-
         <div class="ticket-type">
             <button class="ticket-button" data-price="90">PLATEA 🎟️ - 90€</button>
         </div>
-
         <div class="ticket-type">
             <button class="ticket-button" data-price="120">TRIBUNA 🎉 - 120€</button>
         </div>
-
-        <div class="quantity">
-            <button onclick="changeQuantity(-1)">-</button>
-            <input type="number" id="quantity" value="1" min="1" max="4">
-            <button onclick="changeQuantity(1)">+</button>
-        </div>
-
         <div class="total-price">
             Total: <span id="total">0€</span>
         </div>
-
-        <!-- Acquista Button -->
+        <!-- Bottone che porta alla form -->
         <div class="purchase-button-container">
             <a href="/form">
                 <button id="acquista-button" class="acquista-button">Acquista</button>
             </a>
-
         </div>
     </div>
 </div>

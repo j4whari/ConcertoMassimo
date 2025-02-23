@@ -85,17 +85,18 @@
     </form>
 
     <p class="switch-form">Hai già un account? <a href="#" id="show-login">Accedi</a></p>
+
   </div>
-
+  <!-- Messaggi di errore/successo -->
+  <div th:if="${param.error != null}" style="color: red; text-align: center; margin-top: 20px;">
+    <p th:text="${param.error}"></p>
+  </div>
+  <div th:if="${param.success != null}" style="color: green; text-align: center; margin-top: 20px;">
+    <p th:text="${param.success}"></p>
+  </div>
 </div>
 
-<!-- Messaggi di errore/successo -->
-<div th:if="${param.error != null}" style="color: red; text-align: center; margin-top: 20px;">
-  <p th:text="${param.error}"></p>
-</div>
-<div th:if="${param.success != null}" style="color: green; text-align: center; margin-top: 20px;">
-  <p th:text="${param.success}"></p>
-</div>
+
 
 <!-- Script per lo switch tra login e registrazione -->
 <script>

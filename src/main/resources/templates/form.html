@@ -141,6 +141,7 @@
           </div>
         </div>
       </div>
+      <!-- Bottone di submit -->
       <button type="submit" class="btn-submit" id="payButton">Vai al pagamento</button>
     </form>
   </div>
@@ -150,7 +151,8 @@
     <h3>Riepilogo</h3>
     <div class="summary-item">
       <span>Biglietto</span>
-      <span>€ 60,00</span>
+      <!-- Qui usiamo degli id per aggiornare dinamicamente il valore -->
+      <span id="ticketPriceDisplay">€ 0,00</span>
     </div>
     <div class="summary-item">
       <span>Commissioni di servizio</span>
@@ -162,7 +164,7 @@
     </div>
     <div class="summary-total">
       <span>Totale</span>
-      <span>€ 75,50</span>
+      <span id="totalPriceDisplay">€ 0,00</span>
     </div>
   </div>
 </div>

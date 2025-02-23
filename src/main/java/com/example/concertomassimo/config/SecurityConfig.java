@@ -21,9 +21,9 @@ public class SecurityConfig {
                         session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
-                        .requestMatchers("/auth", "/controller/register", "/controller/login", "/homepage", "/index").permitAll()
-                        .requestMatchers("/form", "/controller/ticket").authenticated()
+                        .requestMatchers("/css/**", "/js/**", "/images/**", "/webjars/**", "/img/**").permitAll()
+                        .requestMatchers("/auth", "/controller/register", "/controller/login", "/homepage", "/index", "/form", "/controller/ticket", "/contattaci", "/controller/aggiungiArtista", "/aggiungiArtista").permitAll()
+                        //.requestMatchers("/form", "/controller/ticket").authenticated()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form.disable())
