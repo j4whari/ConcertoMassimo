@@ -228,7 +228,7 @@
              alt="PayPal logo">
       </h3>
       <p>Paga in modo rapido con il tuo account PayPal.</p>
-      <button class="paypal-btn">Paga con PayPal</button>
+      <button class="paypal-btn" id="paypalBtn">Paga con PayPal</button>
     </div>
   </div>
   <button class="checkout-button" id="checkoutBtn" onclick="window.location.href='/biglietto'">Acquista ora</button>
@@ -243,7 +243,7 @@
     }, 2000);
   });
 
-  // Riferimenti agli input
+  // Riferimenti agli input della carta (se presenti)
   const cardNumberInput = document.getElementById('cardNumber');
   const expiryDateInput = document.getElementById('expiryDate');
   const cvvInput = document.getElementById('cvv');
@@ -269,37 +269,41 @@
     return value;
   }
 
-  // Event listener per il numero della carta
-  cardNumberInput.addEventListener('input', function(e) {
-    const formatted = formatCardNumber(cardNumberInput.value);
-    cardNumberInput.value = formatted;
-    // Limitiamo a 16 cifre (4 gruppi da 4)
-    if (formatted.replace(/\s/g, '').length > 16) {
-      cardNumberInput.value = formatted.substring(0, 19);
-    }
-    validateCardNumber();
-  });
+  if(cardNumberInput){
+    cardNumberInput.addEventListener('input', function(e) {
+      const formatted = formatCardNumber(cardNumberInput.value);
+      cardNumberInput.value = formatted;
+      // Limitiamo a 16 cifre (4 gruppi da 4)
+      if (formatted.replace(/\s/g, '').length > 16) {
+        cardNumberInput.value = formatted.substring(0, 19);
+      }
+      validateCardNumber();
+    });
+  }
 
-  // Impedisci l'inserimento di numeri nel campo del titolare
-  cardHolderInput.addEventListener('input', function(e) {
-    cardHolderInput.value = cardHolderInput.value.replace(/[0-9]/g, '');
-    validateCardHolder();
-  });
+  if(cardHolderInput){
+    cardHolderInput.addEventListener('input', function(e) {
+      // Rimuove numeri
+      cardHolderInput.value = cardHolderInput.value.replace(/[0-9]/g, '');
+      validateCardHolder();
+    });
+  }
 
-  // Event listener per la data di scadenza
-  expiryDateInput.addEventListener('input', function(e) {
-    const formatted = formatExpiryDate(expiryDateInput.value);
-    expiryDateInput.value = formatted;
-    validateExpiryDate();
-  });
+  if(expiryDateInput){
+    expiryDateInput.addEventListener('input', function(e) {
+      const formatted = formatExpiryDate(expiryDateInput.value);
+      expiryDateInput.value = formatted;
+      validateExpiryDate();
+    });
+  }
 
-  // Event listener per il CVV: solo numeri
-  cvvInput.addEventListener('input', function(e) {
-    cvvInput.value = cvvInput.value.replace(/\D/g, '');
-    validateCVV();
-  });
+  if(cvvInput){
+    cvvInput.addEventListener('input', function(e) {
+      cvvInput.value = cvvInput.value.replace(/\D/g, '');
+      validateCVV();
+    });
+  }
 
-  // Funzioni di validazione
   function validateCardNumber() {
     const value = cardNumberInput.value.replace(/\s+/g, '');
     if (!/^\d{16}$/.test(value)) {
@@ -336,15 +340,20 @@
     }
   }
 
-  // Controllo finale al click su "Acquista ora"
+  // Gestione del pulsante PayPal: reindirizza al sito di PayPal
+  const paypalBtn = document.getElementById('paypalBtn');
+  paypalBtn.addEventListener('click', function() {
+    window.location.href = "https://www.paypal.com";
+  });
+
+  // Event listener finale per il pulsante "Acquista ora" (se desiderato)
   const checkoutBtn = document.getElementById('checkoutBtn');
   checkoutBtn.addEventListener('click', function(event) {
-    // Esegui tutte le validazioni
+    // Esegui le validazioni dei campi carta se necessario
     validateCardNumber();
     validateExpiryDate();
     validateCVV();
     validateCardHolder();
-
     if (cardNumberError.textContent ||
             expiryDateError.textContent ||
             cvvError.textContent ||
@@ -353,10 +362,8 @@
       alert('Correggi gli errori prima di procedere con il pagamento.');
     } else {
       alert('Pagamento effettuato con successo (simulazione)!');
-      // Qui potresti inserire la logica reale di pagamento
     }
   });
 </script>
-
 </body>
 </html>

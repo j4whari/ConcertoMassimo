@@ -143,7 +143,7 @@
     </form>
   </div>
 
-  <!-- SEZIONE DESTRA: RIEPILOGO E PAGAMENTO -->
+  <!-- SEZIONE DESTRA: RIEPILOGO -->
   <div class="summary-section">
     <h3>Riepilogo</h3>
     <div class="summary-item">
@@ -166,101 +166,180 @@
   </div>
 </div>
 
-<script src="/js/scriptForm.js"></script>
-</body>
-
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    // Recupera gli elementi di input
-    const nomeInput = document.getElementById('nome');
-    const cognomeInput = document.getElementById('cognome');
-    const emailInput = document.getElementById('email');
-    const confermaEmailInput = document.getElementById('confermaEmail');
-    const capInput = document.getElementById('cap');
+    // VALIDAZIONI PER I CAMPI DELLA CARTA (se presenti in una sezione successiva)
+    const cardNumberInput = document.getElementById('cardNumber');
+    const expiryDateInput = document.getElementById('expiryDate');
+    const cvvInput = document.getElementById('cvv');
+    const cardHolderInput = document.getElementById('cardHolder');
 
-    // Crea (o usa) elementi per i messaggi d'errore
-    // Se non li hai già nel markup, li creiamo dinamicamente
-    function createErrorSpan(inputElement) {
-      let errorSpan = inputElement.nextElementSibling;
-      if (!errorSpan || !errorSpan.classList.contains('error-message')) {
-        errorSpan = document.createElement('span');
-        errorSpan.className = 'error-message';
-        errorSpan.style.color = 'red';
-        errorSpan.style.fontSize = '0.85em';
-        inputElement.parentNode.insertBefore(errorSpan, inputElement.nextSibling);
-      }
-      return errorSpan;
+    const cardNumberError = document.getElementById('cardNumberError');
+    const expiryDateError = document.getElementById('expiryDateError');
+    const cvvError = document.getElementById('cvvError');
+    const cardHolderError = document.getElementById('cardHolderError');
+
+    function formatCardNumber(value) {
+      return value.replace(/\D/g, '').replace(/(.{4})/g, '$1 ').trim();
     }
 
-    const nomeError = createErrorSpan(nomeInput);
-    const cognomeError = createErrorSpan(cognomeInput);
-    const emailError = createErrorSpan(emailInput);
-    const confermaEmailError = createErrorSpan(confermaEmailInput);
-    const capError = createErrorSpan(capInput);
+    function formatExpiryDate(value) {
+      value = value.replace(/\D/g, '');
+      if (value.length > 2) {
+        return value.substring(0,2) + '/' + value.substring(2,4);
+      }
+      return value;
+    }
 
-    // Validazione: il nome non deve contenere numeri
-    nomeInput.addEventListener('input', function() {
-      const regex = /[0-9]/;
-      if (regex.test(nomeInput.value)) {
-        nomeError.textContent = 'Il nome non deve contenere numeri.';
-      } else {
-        nomeError.textContent = '';
+    if(cardNumberInput){
+      cardNumberInput.addEventListener('input', function() {
+        const formatted = formatCardNumber(cardNumberInput.value);
+        cardNumberInput.value = formatted;
+        if (formatted.replace(/\s/g, '').length > 16) {
+          cardNumberInput.value = formatted.substring(0, 19);
+        }
+        validateCardNumber();
+      });
+    }
+
+    if(cardHolderInput){
+      cardHolderInput.addEventListener('input', function() {
+        // Rimuove numeri
+        cardHolderInput.value = cardHolderInput.value.replace(/[0-9]/g, '');
+        validateCardHolder();
+      });
+    }
+
+    if(expiryDateInput){
+      expiryDateInput.addEventListener('input', function() {
+        const formatted = formatExpiryDate(expiryDateInput.value);
+        expiryDateInput.value = formatted;
+        validateExpiryDate();
+      });
+    }
+
+    if(cvvInput){
+      cvvInput.addEventListener('input', function() {
+        cvvInput.value = cvvInput.value.replace(/\D/g, '');
+        validateCVV();
+      });
+    }
+
+    function validateCardNumber() {
+      if(cardNumberInput){
+        const value = cardNumberInput.value.replace(/\s+/g, '');
+        if (!/^\d{16}$/.test(value)) {
+          cardNumberError.textContent = 'Inserire esattamente 16 cifre.';
+        } else {
+          cardNumberError.textContent = '';
+        }
+      }
+    }
+
+    function validateExpiryDate() {
+      if(expiryDateInput){
+        const value = expiryDateInput.value;
+        if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(value)) {
+          expiryDateError.textContent = 'Formato non valido. Usa MM/YY.';
+        } else {
+          expiryDateError.textContent = '';
+        }
+      }
+    }
+
+    function validateCVV() {
+      if(cvvInput){
+        const value = cvvInput.value;
+        if (!/^\d{3}$/.test(value)) {
+          cvvError.textContent = 'Inserire un CVV di 3 cifre.';
+        } else {
+          cvvError.textContent = '';
+        }
+      }
+    }
+
+    function validateCardHolder() {
+      if(cardHolderInput){
+        const value = cardHolderInput.value.trim();
+        if (value.length < 3) {
+          cardHolderError.textContent = 'Inserire il nome del titolare (min. 3 caratteri).';
+        } else {
+          cardHolderError.textContent = '';
+        }
+      }
+    }
+
+    // VALIDAZIONI PER I CAMPI ANAGRAFICI
+
+    // Campi in cui NON devono comparire numeri
+    const textOnlyFields = ['nome', 'cognome', 'provincia', 'citta', 'indirizzo'];
+    textOnlyFields.forEach(function (id) {
+      const field = document.getElementById(id);
+      if (field) {
+        field.addEventListener('input', function () {
+          this.value = this.value.replace(/[0-9]/g, '');
+        });
       }
     });
 
-    // Validazione: il cognome non deve contenere numeri
-    cognomeInput.addEventListener('input', function() {
-      const regex = /[0-9]/;
-      if (regex.test(cognomeInput.value)) {
-        cognomeError.textContent = 'Il cognome non deve contenere numeri.';
-      } else {
-        cognomeError.textContent = '';
+    // Campo Provincia: oltre a rimuovere i numeri, limita a 2 lettere (es. MI)
+    const provinciaField = document.getElementById('provincia');
+    if (provinciaField) {
+      provinciaField.addEventListener('input', function() {
+        this.value = this.value.replace(/[^A-Za-z]/g, '');
+        if (this.value.length > 2) {
+          this.value = this.value.slice(0,2);
+        }
+      });
+    }
+
+    // Campi che devono contenere solo numeri: Numero Civico e CAP
+    const numericOnlyFields = ['civico', 'cap'];
+    numericOnlyFields.forEach(function (id) {
+      const field = document.getElementById(id);
+      if (field) {
+        field.addEventListener('input', function () {
+          this.value = this.value.replace(/[^\d]/g, '');
+        });
       }
     });
+    // Limiti specifici per Numero Civico (max 4 cifre) e CAP (max 5 cifre)
+    const civicoField = document.getElementById('civico');
+    if (civicoField) {
+      civicoField.addEventListener('input', function() {
+        if(this.value.length > 4){
+          this.value = this.value.slice(0, 4);
+        }
+      });
+    }
+    const capField = document.getElementById('cap');
+    if (capField) {
+      capField.addEventListener('input', function() {
+        if(this.value.length > 5){
+          this.value = this.value.slice(0, 5);
+        }
+      });
+    }
 
-    // Validazione: email in formato corretto
-    emailInput.addEventListener('input', function() {
-      const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!regex.test(emailInput.value)) {
-        emailError.textContent = 'Inserisci un indirizzo email valido.';
-      } else {
-        emailError.textContent = '';
-      }
-    });
+    // Controllo finale al click su "Vai al pagamento"
+    const payButton = document.getElementById('payButton');
+    payButton.addEventListener('click', function(event) {
+      validateCardNumber();
+      validateExpiryDate();
+      validateCVV();
+      validateCardHolder();
 
-    // Validazione: conferma email deve corrispondere
-    confermaEmailInput.addEventListener('input', function() {
-      if (confermaEmailInput.value !== emailInput.value) {
-        confermaEmailError.textContent = 'Le email non corrispondono.';
-      } else {
-        confermaEmailError.textContent = '';
-      }
-    });
-
-    // Validazione: il CAP deve contenere solo numeri
-    capInput.addEventListener('input', function() {
-      const regex = /^[0-9]+$/;
-      if (capInput.value !== '' && !regex.test(capInput.value)) {
-        capError.textContent = 'Il CAP deve contenere solo numeri.';
-      } else {
-        capError.textContent = '';
-      }
-    });
-
-    // (Facoltativo) Puoi aggiungere altre validazioni per altri campi seguendo lo stesso schema.
-
-    // Impedire l'invio del form se ci sono errori
-    const form = document.querySelector('.form-section form');
-    form.addEventListener('submit', function(e) {
-      // Esegui tutte le validazioni
-      if (nomeError.textContent || cognomeError.textContent ||
-              emailError.textContent || confermaEmailError.textContent ||
-              capError.textContent) {
-        e.preventDefault();
-        alert('Correggi gli errori nel form prima di procedere.');
+      // Se ci sono errori nei campi della carta (se presenti), blocca l'invio del form.
+      if ((cardNumberError && cardNumberError.textContent) ||
+              (expiryDateError && expiryDateError.textContent) ||
+              (cvvError && cvvError.textContent) ||
+              (cardHolderError && cardHolderError.textContent)) {
+        event.preventDefault();
+        alert('Correggi gli errori nei dati della carta (se presenti) prima di procedere.');
       }
     });
   });
 </script>
-
+<script src="/js/scriptForm.js"></script>
+</body>
 </html>

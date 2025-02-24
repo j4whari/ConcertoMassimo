@@ -1,3 +1,4 @@
+/* Stili generali */
 * {
     margin: 0;
     padding: 0;
@@ -18,7 +19,7 @@ body {
             );
 }
 
-body::before{
+body::before {
     position: absolute;
     width: min(1400px, 90vw);
     top: 20%;
@@ -26,7 +27,6 @@ body::before{
     height: 90%;
     transform: translateX(-50%);
     content: '';
-    background-image: url(../img/bg.png);
     background-size: contain;
     background-repeat: no-repeat;
     background-position: top center;
@@ -34,28 +34,46 @@ body::before{
 }
 
 .container {
-    width: 80%;
+    width: 90%;
     margin: 20px auto;
     text-align: center;
+    overflow: hidden;
+    position: relative;
 }
 
 h1 {
     color: #333;
 }
 
-.artista-container {
+/* Slider */
+.slider-wrapper {
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+}
+
+.slider {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
     gap: 20px;
+    padding: 20px 0;
+    scrollbar-width: none;
+    white-space: nowrap;
+    scroll-behavior: smooth;
+}
+
+.slider::-webkit-scrollbar {
+    display: none;
 }
 
 .artista-card {
+    flex: 0 0 calc(20% - 20px);
+    scroll-snap-align: center;
     background: white;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    width: 300px;
     text-align: center;
     transition: transform 0.3s ease;
 }
@@ -84,6 +102,60 @@ h1 {
     width: 100%;
     margin-top: 10px;
 }
+
+/* Pulsanti di navigazione */
+.slider-wrapper {
+    position: relative;
+    width: 90%;
+    margin: auto;
+    overflow: hidden;
+}
+
+.slider {
+    display: flex;
+    gap: 20px;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    white-space: nowrap;
+}
+
+.artista-card {
+    flex: 0 0 calc(20% - 20px); /* 20% per mostrare 5 elementi */
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 18px;
+    border-radius: 50%;
+    z-index: 10;
+}
+
+.slider-btn.left {
+    left: 10px;
+}
+
+.slider-btn.right {
+    right: 10px;
+}
+
+.slider-btn:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Navbar */
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -98,6 +170,7 @@ h1 {
 .nav-left {
     display: flex;
     gap: 15px;
+    align-items: center;
 }
 
 .nav-left a {
@@ -107,11 +180,11 @@ h1 {
 
 .nav-center {
     display: flex;
-    align-items: center; /* Allinea verticalmente il logo e il menu */
+    align-items: center;
 }
 
 .nav-center a.logo {
-    margin-right: 80px; /* Spazio tra il logo e il menu */
+    margin-right: 80px;
 }
 
 .nav-center ul {
@@ -130,12 +203,12 @@ h1 {
     align-items: center;
     gap: 15px;
 }
-.nav-right ul{
+
+.nav-right ul {
     display: flex;
     list-style: none;
     gap: 15px;
 }
-
 
 .nav-right a {
     text-decoration: none;

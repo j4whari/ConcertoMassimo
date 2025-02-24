@@ -9,14 +9,15 @@
 <body>
 <nav class="navbar">
     <div class="nav-left">
+        <a href="/homepage" class="logo">
+            <img src="/img/P Logo .png" alt="Logo" style="height: 65px;"> <!-- Imposta l'altezza del logo -->
+        </a>
         <span>Italia / € EUR</span>
         <a href="/contattaci">Contattaci</a>
     </div>
 
     <div class="nav-center">
-        <a href="/homepage" class="logo">
-            <img src="/img/P Logo .png" alt="Logo" style="height: 65px;"> <!-- Imposta l'altezza del logo -->
-        </a>
+
 
     </div>
 
@@ -32,26 +33,33 @@
     </div>
 </nav>
 <div class="container">
-    <h1>Eventi in Corso</h1>
 
-    <!-- Sezione per ogni artista -->
-    <div th:each="artista : ${artisti}" class="artista-container">
-        <div class="artista-card">
-            <div class="artista-immagine">
-                <img th:if="${artista.immagineBase64 != null}" th:src="'data:image/jpeg;base64,' + ${artista.immagineBase64}" alt="Copertina Album">
-                <img th:unless="${artista.immagineBase64 != null}" src="/path/to/default/image.jpg" alt="Copertina Album Predefinita">
-            </div>
-            <div class="artista-dettagli">
-                <h2 class="artista-nome" th:text="${artista.nome}"></h2>
-                <div class="audio-container">
-                    <audio controls>
-                        <source th:src="${artista.audioUrl}" type="audio/mpeg">
-                        Il tuo browser non supporta l'elemento audio.
-                    </audio>
+    <!-- Slider container -->
+    <div class="slider-wrapper">
+        <button class="slider-btn left" onclick="scrollSlider(-1)">&#10094;</button>
+
+        <div class="slider">
+            <div th:each="artista : ${artisti}" class="artista-card">
+                <div class="artista-immagine">
+                    <img th:if="${artista.immagineBase64 != null}" th:src="'data:image/jpeg;base64,' + ${artista.immagineBase64}" alt="Copertina Album">
+                    <img th:unless="${artista.immagineBase64 != null}" src="/path/to/default/image.jpg" alt="Copertina Album Predefinita">
+                </div>
+                <div class="artista-dettagli">
+                    <h2 class="artista-nome" th:text="${artista.nome}"></h2>
+                    <div class="audio-container">
+                        <audio controls>
+                            <source th:src="${artista.audioUrl}" type="audio/mpeg">
+                            Il tuo browser non supporta l'elemento audio.
+                        </audio>
+                    </div>
                 </div>
             </div>
         </div>
+        <h2>Registrati per ascoltare!</h2>
+        <button class="slider-btn right" onclick="scrollSlider(1)">&#10095;</button>
     </div>
+
+    <script src="/js/eventiJS.js"></script>
 </div>
 </body>
 </html>
