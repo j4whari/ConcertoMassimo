@@ -4,25 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eventi in Corso</title>
-    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/css/eventiStyle.css">
 </head>
 <body>
+<nav class="navbar">
+    <div class="nav-left">
+        <span>Italia / € EUR</span>
+        <a href="/contattaci">Contattaci</a>
+    </div>
+
+    <div class="nav-center">
+        <a href="/homepage" class="logo">
+            <img src="/img/P Logo .png" alt="Logo" style="height: 65px;"> <!-- Imposta l'altezza del logo -->
+        </a>
+
+    </div>
+
+    <div class="nav-right">
+        <ul>
+
+            <li><a href="/controller/eventi">EVENTI IN CORSO</a></li>
+        </ul>
+        <a href="/auth">Accedi</a>
+        <i class="fas fa-search"></i>
+        <i class="far fa-heart"></i>
+        <i class="fas fa-shopping-bag"></i>
+    </div>
+</nav>
 <div class="container">
     <h1>Eventi in Corso</h1>
 
     <!-- Sezione per ogni artista -->
     <div th:each="artista : ${artisti}" class="artista-container">
-        <div class="artista-immagine">
-            <img th:if="${artista.immagineBase64 != null}" th:src="'data:image/jpeg;base64,' + ${artista.immagineBase64}" alt="Copertina Album">
-            <img th:unless="${artista.immagineBase64 != null}" src="/path/to/default/image.jpg" alt="Copertina Album Predefinita">
-        </div>
-        <div class="artista-info">
-            <h2 class="artista-nome" th:text="${artista.nome}"></h2>
-            <div class="audio-container">
-                <audio controls>
-                    <source th:src="${artista.audioUrl}" type="audio/mpeg">
-                    Il tuo browser non supporta l'elemento audio.
-                </audio>
+        <div class="artista-card">
+            <div class="artista-immagine">
+                <img th:if="${artista.immagineBase64 != null}" th:src="'data:image/jpeg;base64,' + ${artista.immagineBase64}" alt="Copertina Album">
+                <img th:unless="${artista.immagineBase64 != null}" src="/path/to/default/image.jpg" alt="Copertina Album Predefinita">
+            </div>
+            <div class="artista-dettagli">
+                <h2 class="artista-nome" th:text="${artista.nome}"></h2>
+                <div class="audio-container">
+                    <audio controls>
+                        <source th:src="${artista.audioUrl}" type="audio/mpeg">
+                        Il tuo browser non supporta l'elemento audio.
+                    </audio>
+                </div>
             </div>
         </div>
     </div>

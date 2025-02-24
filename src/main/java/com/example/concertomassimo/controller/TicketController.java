@@ -7,6 +7,7 @@ import com.example.concertomassimo.model.User;
 import com.example.concertomassimo.repository.ArtistaRepository;
 import com.example.concertomassimo.repository.UserRepository;
 import com.example.concertomassimo.service.TicketService;
+import com.google.zxing.WriterException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;

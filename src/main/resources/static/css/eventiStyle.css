@@ -1,0 +1,147 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #D2D2D2;
+    font-family: Arial, sans-serif;
+    background-image:
+            repeating-linear-gradient(
+                    to right, transparent 0 100px,
+                    #25283b22 100px 101px
+            ),
+            repeating-linear-gradient(
+                    to bottom, transparent 0 100px,
+                    #25283b22 100px 101px
+            );
+}
+
+body::before{
+    position: absolute;
+    width: min(1400px, 90vw);
+    top: 20%;
+    left: 50%;
+    height: 90%;
+    transform: translateX(-50%);
+    content: '';
+    background-image: url(../img/bg.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: top center;
+    pointer-events: none;
+}
+
+.container {
+    width: 80%;
+    margin: 20px auto;
+    text-align: center;
+}
+
+h1 {
+    color: #333;
+}
+
+.artista-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.artista-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 300px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.artista-card:hover {
+    transform: scale(1.05);
+}
+
+.artista-immagine img {
+    width: 100%;
+    height: auto;
+    border-bottom: 2px solid #ddd;
+}
+
+.artista-dettagli {
+    padding: 15px;
+}
+
+.artista-nome {
+    color: #555;
+    font-size: 1.5em;
+    margin: 10px 0;
+}
+
+.audio-container audio {
+    width: 100%;
+    margin-top: 10px;
+}
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #000000;
+    text-transform: uppercase;
+    font-size: 15px;
+}
+
+.nav-left {
+    display: flex;
+    gap: 15px;
+}
+
+.nav-left a {
+    text-decoration: none;
+    color: black;
+}
+
+.nav-center {
+    display: flex;
+    align-items: center; /* Allinea verticalmente il logo e il menu */
+}
+
+.nav-center a.logo {
+    margin-right: 80px; /* Spazio tra il logo e il menu */
+}
+
+.nav-center ul {
+    display: flex;
+    list-style: none;
+    gap: 15px;
+}
+
+.nav-center a {
+    text-decoration: none;
+    color: black;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.nav-right ul{
+    display: flex;
+    list-style: none;
+    gap: 15px;
+}
+
+
+.nav-right a {
+    text-decoration: none;
+    color: black;
+}
+
+.nav-right i {
+    cursor: pointer;
+}

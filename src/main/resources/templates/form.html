@@ -168,4 +168,99 @@
 
 <script src="/js/scriptForm.js"></script>
 </body>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Recupera gli elementi di input
+    const nomeInput = document.getElementById('nome');
+    const cognomeInput = document.getElementById('cognome');
+    const emailInput = document.getElementById('email');
+    const confermaEmailInput = document.getElementById('confermaEmail');
+    const capInput = document.getElementById('cap');
+
+    // Crea (o usa) elementi per i messaggi d'errore
+    // Se non li hai già nel markup, li creiamo dinamicamente
+    function createErrorSpan(inputElement) {
+      let errorSpan = inputElement.nextElementSibling;
+      if (!errorSpan || !errorSpan.classList.contains('error-message')) {
+        errorSpan = document.createElement('span');
+        errorSpan.className = 'error-message';
+        errorSpan.style.color = 'red';
+        errorSpan.style.fontSize = '0.85em';
+        inputElement.parentNode.insertBefore(errorSpan, inputElement.nextSibling);
+      }
+      return errorSpan;
+    }
+
+    const nomeError = createErrorSpan(nomeInput);
+    const cognomeError = createErrorSpan(cognomeInput);
+    const emailError = createErrorSpan(emailInput);
+    const confermaEmailError = createErrorSpan(confermaEmailInput);
+    const capError = createErrorSpan(capInput);
+
+    // Validazione: il nome non deve contenere numeri
+    nomeInput.addEventListener('input', function() {
+      const regex = /[0-9]/;
+      if (regex.test(nomeInput.value)) {
+        nomeError.textContent = 'Il nome non deve contenere numeri.';
+      } else {
+        nomeError.textContent = '';
+      }
+    });
+
+    // Validazione: il cognome non deve contenere numeri
+    cognomeInput.addEventListener('input', function() {
+      const regex = /[0-9]/;
+      if (regex.test(cognomeInput.value)) {
+        cognomeError.textContent = 'Il cognome non deve contenere numeri.';
+      } else {
+        cognomeError.textContent = '';
+      }
+    });
+
+    // Validazione: email in formato corretto
+    emailInput.addEventListener('input', function() {
+      const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!regex.test(emailInput.value)) {
+        emailError.textContent = 'Inserisci un indirizzo email valido.';
+      } else {
+        emailError.textContent = '';
+      }
+    });
+
+    // Validazione: conferma email deve corrispondere
+    confermaEmailInput.addEventListener('input', function() {
+      if (confermaEmailInput.value !== emailInput.value) {
+        confermaEmailError.textContent = 'Le email non corrispondono.';
+      } else {
+        confermaEmailError.textContent = '';
+      }
+    });
+
+    // Validazione: il CAP deve contenere solo numeri
+    capInput.addEventListener('input', function() {
+      const regex = /^[0-9]+$/;
+      if (capInput.value !== '' && !regex.test(capInput.value)) {
+        capError.textContent = 'Il CAP deve contenere solo numeri.';
+      } else {
+        capError.textContent = '';
+      }
+    });
+
+    // (Facoltativo) Puoi aggiungere altre validazioni per altri campi seguendo lo stesso schema.
+
+    // Impedire l'invio del form se ci sono errori
+    const form = document.querySelector('.form-section form');
+    form.addEventListener('submit', function(e) {
+      // Esegui tutte le validazioni
+      if (nomeError.textContent || cognomeError.textContent ||
+              emailError.textContent || confermaEmailError.textContent ||
+              capError.textContent) {
+        e.preventDefault();
+        alert('Correggi gli errori nel form prima di procedere.');
+      }
+    });
+  });
+</script>
+
 </html>
