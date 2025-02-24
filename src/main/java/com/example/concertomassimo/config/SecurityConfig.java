@@ -23,7 +23,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/css/**", "/js/**", "/images/**", "/webjars/**", "/img/**").permitAll()
                         .requestMatchers("/auth", "/controller/register", "/controller/login", "/homepage", "/index", "/form", "/controller/ticket", "/contattaci",
-                                "/controller/aggiungiArtista", "/aggiungiArtista", "/controller/eventi","/eventiInCorso","/pagamento").permitAll()
+                                "/controller/aggiungiArtista", "/aggiungiArtista", "/controller/eventi","/eventiInCorso","/pagamento", "/controller/generate-ticket").permitAll()
                         //.requestMatchers("/form", "/controller/ticket").authenticated()
                         .anyRequest().authenticated()
                 )

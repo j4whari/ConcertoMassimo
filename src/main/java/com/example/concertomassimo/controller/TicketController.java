@@ -10,6 +10,9 @@ import com.example.concertomassimo.service.TicketService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -184,5 +187,35 @@ public class TicketController {
         List<Artista> artisti = artistaRepository.findAll();
         model.addAttribute("artisti", artisti);
         return "eventiInCorso";
+    }
+    @GetMapping("/generate-ticket")
+    public ResponseEntity<byte[]> generateTicket() throws IOException, WriterException, WriterException {
+        // Recupera l'utente autenticato dal SecurityContext
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(401).build();
+        }
+        String email = authentication.getName();
+        Optional<User> optionalUser = userRepository.findByEmail(email);
+        if (!optionalUser.isPresent()) {
+            return ResponseEntity.status(404).build();
+        }
+        User user = optionalUser.get();
+
+        // In questo esempio non abbiamo un campo "infoSupplementari"
+        // Puoi eventualmente sostituirlo con dati aggiuntivi se disponibili
+        String infoSupplementari = "";
+
+        // Genera il PDF usando i dati dell'utente
+        byte[] ticket = ticketService.generateTicket(user.getNome(), user.getCognome(), infoSupplementari);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDispositionFormData("attachment", "biglietto.pdf");
+        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(ticket);
     }
 }
