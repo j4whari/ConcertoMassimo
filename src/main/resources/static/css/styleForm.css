@@ -178,6 +178,7 @@ h2, h3, h4 {
 }
 
 .nav-left {
+    align-items: center;
     display: flex;
     gap: 15px;
 }

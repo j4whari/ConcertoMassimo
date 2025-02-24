@@ -45,6 +45,7 @@ body::before{
 }
 
 .nav-left, .nav-center, .nav-right {
+    align-items: center;
     display: flex;
     gap: 15px;
 }

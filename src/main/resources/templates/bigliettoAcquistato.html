@@ -10,21 +10,23 @@
 
 <nav class="navbar">
     <div class="nav-left">
+        <a href="/homepage" class="logo">
+            <img src="/img/P Logo .png" alt="Logo" style="height: 65px;"> <!-- Imposta l'altezza del logo -->
+        </a>
         <span>Italia / € EUR</span>
         <a href="/contattaci">Contattaci</a>
     </div>
 
     <div class="nav-center">
-        <a href="/homepage" class="logo">
-            <img src="/img/P Logo .png" alt="Logo" style="height: 65px;"> <!-- Imposta l'altezza del logo -->
-        </a>
-        <ul>
-            <li><a th:href="@{/controller/eventi}">EVENTI IN CORSO</a></li>
-        </ul>
+
+
     </div>
 
     <div class="nav-right">
-        <!-- <a href="/auth">Accedi</a> -->
+        <ul>
+
+            <li><a href="/controller/eventi">EVENTI IN CORSO</a></li>
+        </ul>
         <i class="fas fa-search"></i>
         <i class="far fa-heart"></i>
         <i class="fas fa-shopping-bag"></i>

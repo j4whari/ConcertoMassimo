@@ -219,6 +219,7 @@ body::before{
 
 .nav-left {
     display: flex;
+    align-items: center;
     gap: 15px;
 }
 
