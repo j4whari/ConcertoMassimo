@@ -23,7 +23,6 @@ body {
                   to bottom, transparent 0 100px,
                   #25283b22 100px 101px
           );
-  color: white;
 }
 
 body::before{
@@ -53,6 +52,7 @@ body::before{
 }
 
 .nav-left {
+  align-items: center;
   display: flex;
   gap: 15px;
 }

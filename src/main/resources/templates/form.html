@@ -143,6 +143,15 @@
           </div>
         </div>
       </div>
+
+      <!-- Campi nascosti per il tipo di biglietto e il prezzo -->
+      <input type="hidden" id="ticketType" name="ticketType" value="">
+      <input type="hidden" id="biglietto" name="biglietto" value="">
+      <input type="hidden" id="commissioni" name="commissioni" value="">
+      <input type="hidden" id="iva" name="iva" value="">
+      <input type="hidden" id="totale" name="totale" value="">
+
+
       <!-- Bottone di submit -->
       <button type="submit" class="btn-submit" id="payButton">Vai al pagamento</button>
     </form>
@@ -344,6 +353,43 @@
       }
     });
   });
+
+  const ticketButtons = document.querySelectorAll('.ticket-button');
+  ticketButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      // Rimuove la classe 'selected' da tutti i pulsanti
+      ticketButtons.forEach(btn => btn.classList.remove('selected'));
+      // Aggiunge la classe 'selected' a quello cliccato
+      this.classList.add('selected');
+
+      // Legge il prezzo dal data-price e il testo del pulsante
+      basePrice = parseInt(this.getAttribute('data-price'));
+      selectedTicketType = this.innerText;
+      updateTotal();
+
+      // Imposta i campi nascosti del form
+      document.getElementById('ticketType').value = selectedTicketType;
+      document.getElementById('biglietto').value = basePrice;
+    });
+  });
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const ticketType = localStorage.getItem('ticketType') || "";
+    const ticketTotal = localStorage.getItem('ticketTotal') || "0";
+    // Se vuoi anche passare commissioni, IVA e totale finale, calcolali oppure salvali anch’essi nel localStorage
+    // Ad esempio, se commissioni e IVA sono costanti:
+    const commissioni = "9.90";
+    const iva = "5.60";
+    const totale = (parseFloat(ticketTotal) + parseFloat(commissioni) + parseFloat(iva)).toFixed(2);
+
+    document.getElementById('ticketType').value = ticketType;
+    document.getElementById('biglietto').value = ticketTotal;
+    document.getElementById('commissioni').value = commissioni;
+    document.getElementById('iva').value = iva;
+    document.getElementById('totale').value = totale;
+  });
+
+
 </script>
 <script src="/js/scriptForm.js"></script>
 </body>

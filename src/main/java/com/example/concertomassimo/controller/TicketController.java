@@ -3,8 +3,10 @@ package com.example.concertomassimo.controller;
 import com.example.concertomassimo.dto.TicketRequest;
 import com.example.concertomassimo.dto.TicketResponse;
 import com.example.concertomassimo.model.Artista;
+import com.example.concertomassimo.model.Order;
 import com.example.concertomassimo.model.User;
 import com.example.concertomassimo.repository.ArtistaRepository;
+import com.example.concertomassimo.repository.OrderRepository;
 import com.example.concertomassimo.repository.UserRepository;
 import com.example.concertomassimo.service.TicketService;
 import com.google.zxing.WriterException;
@@ -24,6 +26,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Optional;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -38,6 +41,9 @@ public class TicketController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private OrderRepository orderRepository;
 
     @Autowired
     private ArtistaRepository artistaRepository;
@@ -127,16 +133,14 @@ public class TicketController {
             return "redirect:/auth?error=Utente non autenticato!";
         }
 
-        // Otteniamo l'email dal principal
+        // Ottieni l'email dall'authentication
         String currentEmail = authentication.getName().toLowerCase().trim();
-
         Optional<User> optionalUser = userRepository.findByEmail(currentEmail);
         if (!optionalUser.isPresent()) {
             return "redirect:/auth?error=Utente non trovato!";
         }
 
-        System.out.println(ticketRequest);
-        // Aggiorna i campi dell'utente con i dati inviati dal form
+        // Aggiorna i dati dell'utente
         User utente = optionalUser.get();
         utente.setTipologia(ticketRequest.getTipologia());
         utente.setNome(ticketRequest.getNome());
@@ -150,16 +154,34 @@ public class TicketController {
         utente.setCap(ticketRequest.getCap());
         utente.setPrivacyMarketing(ticketRequest.getPrivacyMarketing());
 
-        // Salva l'utente aggiornato
         userRepository.save(utente);
 
-        // Esempio di generazione di un ticket o PDF (se serve)
-        // TicketResponse response = ticketService.createTicket(ticketRequest);
-        // model.addAttribute("orderId", response.getOrderId());
-        // model.addAttribute("userId", utente.getId());
+        Order order = new Order();
+        order.setUser(utente);
+        order.setMetodoConsegna(ticketRequest.getMetodoConsegna());
+        order.setFatturaDifferente(ticketRequest.isFatturaDifferente());
+        if(ticketRequest.isFatturaDifferente()){
+            order.setFatturaIndirizzo(ticketRequest.getFatturaIndirizzo());
+            order.setFatturaCivico(ticketRequest.getFatturaCivico());
+            order.setFatturaCap(ticketRequest.getFatturaCap());
+            order.setFatturaCitta(ticketRequest.getFatturaCitta());
+        }
+
+// Imposta i costi e il tipo di biglietto (assicurati che questi valori non siano null)
+        order.setBiglietto(ticketRequest.getBiglietto() != null ? ticketRequest.getBiglietto() : BigDecimal.ZERO);
+        order.setCommissioni(ticketRequest.getCommissioni() != null ? ticketRequest.getCommissioni() : BigDecimal.ZERO);
+        order.setIva(ticketRequest.getIva() != null ? ticketRequest.getIva() : BigDecimal.ZERO);
+        order.setTotale(ticketRequest.getTotale() != null ? ticketRequest.getTotale() : BigDecimal.ZERO);
+
+// Salva il tipo di biglietto
+        order.setTicketType(ticketRequest.getTicketType());
+
+        orderRepository.save(order);
 
         return "pagamento";
     }
+
+
     @PostMapping("/aggiungiArtista")
     public String inserisciArtista(
             @RequestParam("nome") String nome,
@@ -190,7 +212,7 @@ public class TicketController {
         return "eventiInCorso";
     }
     @GetMapping("/generate-ticket")
-    public ResponseEntity<byte[]> generateTicket() throws IOException, WriterException, WriterException {
+    public ResponseEntity<byte[]> generateTicket() throws IOException, WriterException {
         // Recupera l'utente autenticato dal SecurityContext
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()) {
@@ -203,12 +225,16 @@ public class TicketController {
         }
         User user = optionalUser.get();
 
-        // In questo esempio non abbiamo un campo "infoSupplementari"
-        // Puoi eventualmente sostituirlo con dati aggiuntivi se disponibili
-        String infoSupplementari = "";
+        // Recupera l'ultimo ordine effettuato dall'utente
+        Order order = orderRepository.findTopByUserOrderByCreatedAtDesc(user);
+        if (order == null) {
+            return ResponseEntity.status(404).build();
+        }
+        String ticketType = order.getTicketType();
+        String infoSupplementari = ""; // Puoi impostare altri dati se necessario
 
-        // Genera il PDF usando i dati dell'utente
-        byte[] ticket = ticketService.generateTicket(user.getNome(), user.getCognome(), infoSupplementari);
+        // Genera il PDF usando i dati dell'utente e il tipo di biglietto
+        byte[] ticket = ticketService.generateTicket(user.getNome(), user.getCognome(), ticketType, infoSupplementari);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);

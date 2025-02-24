@@ -1,7 +1,6 @@
 package com.example.concertomassimo.model;
 
 import jakarta.persistence.*;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -32,6 +31,10 @@ public class Order {
     private String fatturaCap;
     private String fatturaCitta;
 
+    // Nuovo campo per il tipo di biglietto
+    @Column(nullable = false)
+    private String ticketType;
+
     // Costi relativi all'ordine
     @Column(precision = 10, scale = 2, nullable = false)
     private BigDecimal biglietto;
@@ -54,110 +57,90 @@ public class Order {
         createdAt = LocalDateTime.now();
     }
 
-    // Getters and Setters
+    // Getters e Setters
 
     public Long getOrderId() {
         return orderId;
     }
-
     public void setOrderId(Long orderId) {
         this.orderId = orderId;
     }
-
     public User getUser() {
         return user;
     }
-
     public void setUser(User user) {
         this.user = user;
     }
-
     public String getMetodoConsegna() {
         return metodoConsegna;
     }
-
     public void setMetodoConsegna(String metodoConsegna) {
         this.metodoConsegna = metodoConsegna;
     }
-
     public boolean isFatturaDifferente() {
         return fatturaDifferente;
     }
-
     public void setFatturaDifferente(boolean fatturaDifferente) {
         this.fatturaDifferente = fatturaDifferente;
     }
-
     public String getFatturaIndirizzo() {
         return fatturaIndirizzo;
     }
-
     public void setFatturaIndirizzo(String fatturaIndirizzo) {
         this.fatturaIndirizzo = fatturaIndirizzo;
     }
-
     public String getFatturaCivico() {
         return fatturaCivico;
     }
-
     public void setFatturaCivico(String fatturaCivico) {
         this.fatturaCivico = fatturaCivico;
     }
-
     public String getFatturaCap() {
         return fatturaCap;
     }
-
     public void setFatturaCap(String fatturaCap) {
         this.fatturaCap = fatturaCap;
     }
-
     public String getFatturaCitta() {
         return fatturaCitta;
     }
-
     public void setFatturaCitta(String fatturaCitta) {
         this.fatturaCitta = fatturaCitta;
     }
-
+    public String getTicketType() {
+        return ticketType;
+    }
+    public void setTicketType(String ticketType) {
+        this.ticketType = ticketType;
+    }
     public BigDecimal getBiglietto() {
         return biglietto;
     }
-
     public void setBiglietto(BigDecimal biglietto) {
         this.biglietto = biglietto;
     }
-
     public BigDecimal getCommissioni() {
         return commissioni;
     }
-
     public void setCommissioni(BigDecimal commissioni) {
         this.commissioni = commissioni;
     }
-
     public BigDecimal getIva() {
         return iva;
     }
-
     public void setIva(BigDecimal iva) {
         this.iva = iva;
     }
-
     public BigDecimal getTotale() {
         return totale;
     }
-
     public void setTotale(BigDecimal totale) {
         this.totale = totale;
     }
-
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
-
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 }
-
