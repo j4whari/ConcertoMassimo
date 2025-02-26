@@ -79,5 +79,5 @@ Le contribuzioni sono le benvenute! Se hai suggerimenti, correzioni o nuove funz
 Questo progetto è distribuito con la licenza **MIT License**.
 
 ## Contatti
-Per eventuali domande o informazioni, contattaci via email all'indirizzo: mohamedelja@hotmail.it, ivanamoruso976@gmail.com.
+Per eventuali domande o informazioni, contattaci via email all'indirizzo: mohamedelja@hotmail.it, ivanamoruso976@gmail.com, jhoang99999@gmail.com.
 
