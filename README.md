@@ -70,6 +70,7 @@ Oppure esegui la classe principale **`ConcertoMassimoApplication.java**` dal tuo
 
 ### Come funziona
 **Apache PDFBox**: La libreria PDFBox è utilizzata per creare documenti PDF a partire da template predefiniti. Nel progetto, viene caricata un’immagine di sfondo (il template del biglietto) su cui vengono disegnati testo e QR code.
+
 **ZXing**: La libreria ZXing genera un QR code in formato immagine. Questo QR code viene poi integrato nel PDF generato, offrendo un ulteriore livello di sicurezza e autenticità al biglietto.
 ### Contribuire
 Le contribuzioni sono le benvenute! Se hai suggerimenti, correzioni o nuove funzionalità da proporre, crea una issue o invia una pull request.
