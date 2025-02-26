@@ -59,10 +59,15 @@ Oppure esegui la classe principale **`ConcertoMassimoApplication.java**` dal tuo
 
 ## Utilizzo
 **Homepage**: Accedi alla homepage per visualizzare le immagini degli eventi in corso.
-**Login/Registrazione*: Clicca sul pulsante "Accedi" per autenticarti o registrarti.
+
+**Login/Registrazione**: Clicca sul pulsante "Accedi" per autenticarti o registrarti.
+
 **Selezione Biglietto**: Sulla pagina principale, scegli il tipo di biglietto desiderato (Standard, VIP, Platea, Tribuna). Il prezzo verrà aggiornato dinamicamente.
+
 **Form d’Ordine**: Dopo aver selezionato il biglietto, verrai reindirizzato ad un form dove potrai inserire o aggiornare i tuoi dati anagrafici e le preferenze di consegna.
+
 **Pagamento e Generazione PDF**: Dopo aver completato l’ordine, verrai indirizzato alla pagina di pagamento e successivamente potrai scaricare il biglietto in formato PDF, che includerà un QR code per la verifica.
+
 ### Come funziona
 **Apache PDFBox**: La libreria PDFBox è utilizzata per creare documenti PDF a partire da template predefiniti. Nel progetto, viene caricata un’immagine di sfondo (il template del biglietto) su cui vengono disegnati testo e QR code.
 **ZXing**: La libreria ZXing genera un QR code in formato immagine. Questo QR code viene poi integrato nel PDF generato, offrendo un ulteriore livello di sicurezza e autenticità al biglietto.
