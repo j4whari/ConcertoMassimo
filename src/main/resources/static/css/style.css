@@ -2,13 +2,13 @@
 @import url('https://fonts.cdnfonts.com/css/poppins');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-body{
+
+body {
     background-color: #D2D2D2;
     font-family: Arial, sans-serif;
     background-image:
@@ -20,9 +20,9 @@ body{
                     to bottom, transparent 0 100px,
                     #25283b22 100px 101px
             );
-
 }
-header{
+
+header {
     width: 1140px;
     max-width: 90%;
     display: flex;
@@ -31,17 +31,19 @@ header{
     height: 50px;
     align-items: center;
 }
-header .logo{
+
+header .logo {
     font-weight: bold;
 }
-header nav a{
+
+header nav a {
     margin-left: 30px;
     text-decoration: none;
     color: #555;
     font-weight: 500;
 }
 
-body::before{
+body::before {
     position: absolute;
     width: min(1400px, 90vw);
     top: 10%;
@@ -55,14 +57,16 @@ body::before{
     background-position: top center;
     pointer-events: none;
 }
-.banner{
+
+.banner {
     width: 100%;
     height: 100vh;
     text-align: center;
     overflow: hidden;
     position: relative;
 }
-.banner .slider{
+
+.banner .slider {
     position: absolute;
     width: 130px;
     height: 180px;
@@ -73,27 +77,31 @@ body::before{
     animation: autoRun 80s linear infinite;
     z-index: 2;
 }
-@keyframes autoRun{
-    from{
+
+@keyframes autoRun {
+    from {
         transform: perspective(1000px) rotateX(-16deg) rotateY(0deg);
-    }to{
-         transform: perspective(1000px) rotateX(-16deg) rotateY(350deg);
-     }
+    }
+    to {
+        transform: perspective(1000px) rotateX(-16deg) rotateY(350deg);
+    }
 }
 
-.banner .slider .item{
+.banner .slider .item {
     position: absolute;
     inset: 0 0 0 0;
     transform:
-            rotateY(calc( (var(--position) - 1) * (360 / var(--quantity)) * 1deg))
+            rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg))
             translateZ(550px);
 }
-.banner .slider .item img{
+
+.banner .slider .item img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
-.banner .content{
+
+.banner .content {
     position: absolute;
     bottom: 0;
     left: 50%;
@@ -107,14 +115,16 @@ body::before{
     align-items: center;
     z-index: 1;
 }
-.banner .content h1{
+
+.banner .content h1 {
     font-family: 'ICA Rubrik';
     font-size: 16em;
     line-height: 1em;
     color: #25283B;
     position: relative;
 }
-.banner .content h1::after{
+
+.banner .content h1::after {
     position: absolute;
     inset: 0 0 0 0;
     content: attr(data-content);
@@ -122,15 +132,18 @@ body::before{
     -webkit-text-stroke: 2px #d2d2d2;
     color: transparent;
 }
-.banner .content .author{
+
+.banner .content .author {
     font-family: Poppins;
     text-align: right;
     max-width: 200px;
 }
-.banner .content h2{
+
+.banner .content h2 {
     font-size: 3em;
 }
-.banner .content .model{
+
+.banner .content .model {
     background-image: url(../images/Girl_LE_upscale_balanced_x4-removebg.png);
     width: 100%;
     height: 75vh;
@@ -142,24 +155,25 @@ body::before{
     background-position: top center;
     z-index: 1;
 }
+
 @media screen and (max-width: 1023px) {
-    .banner .slider{
+    .banner .slider {
         width: 160px;
         height: 200px;
         left: calc(50% - 80px);
     }
-    .banner .slider .item{
+    .banner .slider .item {
         transform:
-                rotateY(calc( (var(--position) - 1) * (360 / var(--quantity)) * 1deg))
+                rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg))
                 translateZ(300px);
     }
-    .banner .content h1{
+    .banner .content h1 {
         text-align: center;
         width: 100%;
         text-shadow: 0 10px 20px #000;
         font-size: 7em;
     }
-    .banner .content .author{
+    .banner .content .author {
         color: #fff;
         padding: 20px;
         text-shadow: 0 10px 20px #000;
@@ -170,21 +184,23 @@ body::before{
         padding: 0 30px;
     }
 }
+
 @media screen and (max-width: 767px) {
-    .banner .slider{
+    .banner .slider {
         width: 100px;
         height: 150px;
         left: calc(50% - 50px);
     }
-    .banner .slider .item{
+    .banner .slider .item {
         transform:
-                rotateY(calc( (var(--position) - 1) * (360 / var(--quantity)) * 1deg))
+                rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg))
                 translateZ(180px);
     }
-    .banner .content h1{
+    .banner .content h1 {
         font-size: 5em;
     }
 }
+
 .slider-container {
     position: relative;
     display: inline-block;
@@ -199,13 +215,13 @@ body::before{
     color: white;
     background-color: rgba(0, 0, 0, 0.5);
     padding: 10px;
-    display: none; /* Nascondiamo il testo di default */
+    display: none;
 }
 
-/* Mostra il testo quando il mouse passa sopra */
 .slider-container:hover .text-overlay {
-    display: block; /* Mostra il testo quando l'elemento viene hoverato */
+    display: block;
 }
+
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -230,11 +246,11 @@ body::before{
 
 .nav-center {
     display: flex;
-    align-items: center; /* Allinea verticalmente il logo e il menu */
+    align-items: center;
 }
 
 .nav-center a.logo {
-    margin-right: 80px; /* Spazio tra il logo e il menu */
+    margin-right: 80px;
 }
 
 .nav-center ul {
@@ -261,4 +277,38 @@ body::before{
 
 .nav-right i {
     cursor: pointer;
+}
+
+/* Footer Styles */
+footer {
+    background-color: #ffffff;
+    color: #000000;
+    border-top: 1px solid #000000;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Allinea gli elementi in alto */
+}
+
+footer .contacts {
+    text-align: right; /* Allinea il testo a destra */
+    margin-left: auto; /* Spinge la sezione contatti a destra */
+}
+
+footer .about-us {
+    text-align: left; /* Allinea il testo a sinistra */
+    margin-right: auto; /* Spinge la sezione chi siamo a sinistra */
+}
+
+footer .contacts h3, footer .about-us h3 {
+    margin-bottom: 10px;
+}
+
+footer .social-icons a {
+    margin-right: 10px;
+}
+
+footer .social-icons img {
+    width: 24px;
+    height: 24px;
 }
